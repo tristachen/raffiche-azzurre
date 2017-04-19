@@ -1,0 +1,7 @@
+{
+  "train": "/facilities/trainer/train-goalkeeping",
+  "youth": "/facilities/youth/log",
+  "scout": "/facilities/scout/players",
+  "friendlies": "/friendlies/friendlies",
+  "bsquad": "/players/bsquad"
+}

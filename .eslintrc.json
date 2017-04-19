@@ -1,0 +1,13 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "eqeqeq": 2,
+    "curly": 2,
+    "quotes": [2, "single"],
+    "semi": 2,
+    "comma-dangle": 2,
+    "no-cond-assign": 2,
+    "no-constant-condition": 2,
+    "no-extra-semi": 2
+  }
+}

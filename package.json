@@ -1,0 +1,47 @@
+{
+  "name": "raffiche-azzurre",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --env=dev --profile --colors --watch",
+    "dev:server": "webpack-dev-server --env=dev --progress --profile --colors",
+    "build:dev": "webpack --env=dev --progress --profile --colors",
+    "build:prod": "webpack --env=prod --progress --profile"
+  },
+  "devDependencies": {
+    "babel-cli": "6.5.1",
+    "babel-core": "6.10.4",
+    "babel-eslint": "5.0.0",
+    "babel-loader": "6.2.3",
+    "babel-polyfill": "6.9.1",
+    "babel-preset-es2015": "6.6.0",
+    "babel-preset-stage-0": "6.5.0",
+    "css-loader": "0.26.2",
+    "eslint": "2.3.0",
+    "eslint-loader": "1.3.0",
+    "estraverse": "4.1.1",
+    "estraverse-fb": "1.3.1",
+    "extract-text-webpack-plugin": "2.0.0",
+    "html-webpack-plugin": "2.28.0",
+    "json-loader": "^0.5.4",
+    "nib": "1.1.0",
+    "promise-polyfill": "6.0.2",
+    "style-loader": "0.13.2",
+    "stylus-loader": "2.5.0",
+    "url-loader": "0.5.8",
+    "webpack": "2.2.1",
+    "webpack-dev-server": "2.4.1",
+    "webpack-merge": "3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tristachen/raffiche-azzurre.git"
+  },
+  "author": "Trista Chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tristachen/raffiche-azzurre/issues"
+  },
+  "homepage": "https://github.com/tristachen/raffiche-azzurre#readme"
+}

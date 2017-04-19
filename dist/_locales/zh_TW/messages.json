@@ -1,0 +1,7 @@
+{
+  "train": { "message": "訓練中心" },
+  "youth": { "message": "青訓中心" },
+  "scout": { "message": "球員觀察名單" },
+  "friendlies": { "message": "友誼賽" },
+  "bsquad": { "message": "預備隊" }
+}
