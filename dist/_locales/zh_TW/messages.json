@@ -45,5 +45,8 @@
 
   "player_number_of_fixed_attribute_trainings": { "message": "已接受固定屬性訓練之次數" },
   "player_next_fixed_training_cost": { "message": "下次訓練固定能力需要的花費" },
-  "player_training_morale": { "message": "訓練士氣" }
+  "player_training_morale": { "message": "訓練士氣" },
+
+  "player_total_exp": { "message": "估算經驗值" },
+  "player_player_score": { "message": "球員評分" }
 }
