@@ -3,5 +3,47 @@
   "youth": { "message": "青訓中心" },
   "scout": { "message": "球員觀察名單" },
   "friendlies": { "message": "友誼賽" },
-  "bsquad": { "message": "預備隊" }
+  "bsquad": { "message": "預備隊" },
+  "spoiler": { "message": "劇透" },
+
+  "position_attack"     : { "message": "前鋒" },
+  "position_midfield"   : { "message": "中場" },
+  "position_defense"    : { "message": "後衛" },
+  "position_goalkeeping": { "message": "守門員" },
+
+  "player_nationality"       : { "message": "國籍" },
+  "player_language"          : { "message": "語言" },
+  "player_age"               : { "message": "年齡" },
+  "player_weekly_wage"       : { "message": "週薪" },
+  "player_yearly_wage"       : { "message": "年薪" },
+  "player_position"          : { "message": "位置" },
+  "player_value"             : { "message": "能力值" },
+  "player_experience"        : { "message": "經驗" },
+  "player_special_attributes": { "message": "特殊屬性" },
+  "player_market_value"      : { "message": "市場價值 (預估)" },
+  "player_fitness"           : { "message": "身體狀態" },
+  "player_club"              : { "message": "球會" },
+
+  "player_talent"     : { "message": "天賦" },
+  "player_scoring"    : { "message": "射門" },
+  "player_attack"     : { "message": "前場" },
+
+  "player_endurance"  : { "message": "耐力" },
+  "player_passing"    : { "message": "傳球" },
+  "player_midfield"   : { "message": "中場" },
+
+  "player_power"      : { "message": "力量" },
+  "player_dueling"    : { "message": "搶球" },
+  "player_defense"    : { "message": "後場" },
+
+  "player_speed"      : { "message": "速度" },
+  "player_blocking"   : { "message": "阻擋" },
+  "player_goalkeeping": { "message": "守門" },
+
+  "player_tactics"    : { "message": "戰術" },
+  "player_flank"      : { "message": "邊路" },
+
+  "player_number_of_fixed_attribute_trainings": { "message": "已接受固定屬性訓練之次數" },
+  "player_next_fixed_training_cost": { "message": "下次訓練固定能力需要的花費" },
+  "player_training_morale": { "message": "訓練士氣" }
 }
