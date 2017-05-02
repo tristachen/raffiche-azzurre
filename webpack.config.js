@@ -8,10 +8,21 @@ const nib               = require('nib');
 
 const config = {
   base: {
-    entry: path.resolve(__dirname, 'scripts/index.js'),
+    entry: {
+      'home': path.resolve(__dirname, 'scripts/views/home.js'),
+      'info-player': path.resolve(__dirname, 'scripts/views/info-player.js'),
+      'info-team': path.resolve(__dirname, 'scripts/views/info-team.js'),
+      'info-match': path.resolve(__dirname, 'scripts/views/info-match.js'),
+      'facilities-trainer': path.resolve(__dirname, 'scripts/views/facilities-trainer.js'),
+      'facilities-players': path.resolve(__dirname, 'scripts/views/facilities-players.js'),
+      'facilities-transferlist': path.resolve(__dirname, 'scripts/views/facilities-transferlist.js'),
+      'leauge-results': path.resolve(__dirname, 'scripts/views/leauge-results.js'),
+      'friendlies': path.resolve(__dirname, 'scripts/views/friendlies.js'),
+      'matches': path.resolve(__dirname, 'scripts/views/matches.js'),
+    },
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: 'content.js'
+      filename: '[name].js'
     },
     module: {
       rules: [{
