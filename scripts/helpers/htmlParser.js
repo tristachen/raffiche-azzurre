@@ -221,8 +221,6 @@ export default el => {
       break;
   }
 
-  console.log(playerInfo)
-
   playerInfo.total_exp = getTotalEx(playerInfo.scoring, playerInfo.passing, playerInfo.dueling, playerInfo.tactics, playerInfo.blocking, playerInfo.agePercent);
   playerInfo.player_score = getPlayerScore(playerInfo.total_exp, playerInfo.age, playerInfo.talent, playerInfo.endurance, playerInfo.power, playerInfo.speed, playerInfo.position);
   playerInfo.property_score = getPropertyScore(playerInfo.talent, playerInfo.endurance, playerInfo.power, playerInfo.speed, playerInfo.position);
