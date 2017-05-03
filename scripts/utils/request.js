@@ -15,7 +15,12 @@ const request = (url, options) => {
 };
 
 export const get = (url, options) => {
-  return request(url, { method: 'GET', credentials: 'include', ...options });
+  return request(url, {
+    method: 'GET',
+    credentials: 'include',
+    mode: 'no-cors',
+    ...options
+  });
 };
 
 export const post = (url, options) => {
@@ -25,6 +30,7 @@ export const post = (url, options) => {
     headers: {
      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
     },
+    mode: 'no-cors',
     body: buildSearchParams(options.data)
   });
 };
