@@ -19,6 +19,7 @@ const config = {
       'leauge-results': path.resolve(__dirname, 'scripts/views/leauge-results.js'),
       'friendlies': path.resolve(__dirname, 'scripts/views/friendlies.js'),
       'matches': path.resolve(__dirname, 'scripts/views/matches.js'),
+      'challenge': path.resolve(__dirname, 'scripts/views/challenge.js'),
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
