@@ -48,5 +48,9 @@
   "player_training_morale": { "message": "訓練士氣" },
 
   "player_total_exp": { "message": "估算經驗值" },
-  "player_player_score": { "message": "球員評分" }
+  "player_player_score": { "message": "球員評分" },
+
+
+  "text_multi_challenge": { "message": "挑戰多次" },
+  "msg_multi_challenge": { "message": "已經向隊伍 {0} 發出了 {1} 次友誼賽請求，請等待對方接受"}
 }

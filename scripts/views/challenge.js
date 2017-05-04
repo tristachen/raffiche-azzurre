@@ -1,50 +1,51 @@
+/*
+ * - 可以選擇更多挑戰時段 [customizeChallengeTimeElement]
+ * - 可以對別的球隊發送多個友誼賽挑戰時段 [appendMultiChallengeElement]
+ */
+
 import React from '../utils/react-like.js';
+import * as utils from '../utils/common.js';
 import * as request from '../utils/request.js';
 
-//1st
-const startSecs = parseInt(document.querySelector('select[name=start_time] option').value, 10);
+const customizeChallengeTimeElement = () => {
+  const el = document.querySelector('select[name=start_time]'),
+        firstSecs = el.firstChild.value,
+        NUMBERS = 72,
+        PERIOD = 60 * 60; //1 hour
 
-const elSearchTime = document.querySelectorAll('select[name=start_time]')[0];
-elSearchTime.innerHTML = '';
+  //clear default options
+  el.innerHTML = '';
 
-for (let i = 0; i <= 72; i++) {
-  const secs = startSecs + 60 * 60 * i;
-  const date = new Date(secs * 1000);
-  const timestring = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-  elSearchTime.appendChild(<option value={secs}>{timestring}</option>);
-}
-
-
-const btn = document.createElement('button');
-btn.textContent = '挑戰多次';
-btn.onclick = e => {
-
-  const form = document.querySelector('.center form'),
-        formdata = new FormData(form);
-
-  const startTime = parseInt(formdata.get('start_time'), 10),
-        teamId = formdata.get('team_id'),
-        matchType = formdata.get('match_type'),
-        challenge = document.querySelector('[name=challenge]').value;
-         //formdata.get('challenge');
-
-  let times = 6;
-
-  for (let i = 0; i < 6; i++) {
-    setTimeout(() => {
-      request.post(form.action, {
-        data: {
-          start_time: startTime + 60 * 60 * 2 * i,
-          challenge: challenge,
-          team_id: teamId,
-          match_type: matchType
-        }
-      })
-    }, 1000 * (i + 1));
+  //add customization options
+  for (let i = 0; i < NUMBERS; i++) {
+    const secs = firstSecs + PERIOD * i,
+          date = new Date(secs * 1000),
+          str = date.toLocaleString();
+    el.appendChild(<option value={secs}>{str}</option>);
   }
-  alert('已經向隊伍 ' + teamId + ' 發出了 ' + times + ' 次友誼賽請求，請等待對方接受')
-}
-document.querySelector('div.center').appendChild(btn);
+};
 
+const appendMultiChallengeElement = () => {
+  const form = document.querySelector('div.center > form'),
+        teamName = document.querySelector('div.center > h2').textContent,
+        TIMES = 6,
+        PERIOD = 60 * 60 * 2; //2 hours
 
-//http://rockingsoccer.com/zh-tw/football/friendlies/friendlies/challenge
+  const onclick = e => {
+    const startSecs = parseInt(form.querySelector('[name=start_time]').value, 10);
+    const data = {};
+    form.querySelectorAll('[name]').forEach(el => data[el.name] = el.value);
+    for (let i = 0; i < TIMES; i++) {
+      data.start_time = startSecs + PERIOD * i;
+      request.post(form.action, { data });
+    }
+    alert(chrome.i18n.getMessage('msg_multi_challenge').format(teamName, TIMES));
+  };
+
+  const text = chrome.i18n.getMessage('text_multi_challenge'),
+        btn = utils.createButton(text, onclick);
+  document.querySelector('div.center').appendChild(btn);
+};
+
+customizeChallengeTime();
+appendMultiChallengeElement();
