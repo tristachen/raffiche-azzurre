@@ -9,7 +9,7 @@ import * as request from '../utils/request.js';
 
 const customizeChallengeTimeElement = () => {
   const el = document.querySelector('select[name=start_time]'),
-        firstSecs = el.firstChild.value,
+        firstSecs = parseInt(el.firstChild.value, 10),
         NUMBERS = 72,
         PERIOD = 60 * 60; //1 hour
 
@@ -47,5 +47,5 @@ const appendMultiChallengeElement = () => {
   document.querySelector('div.center').appendChild(btn);
 };
 
-customizeChallengeTime();
+customizeChallengeTimeElement();
 appendMultiChallengeElement();
