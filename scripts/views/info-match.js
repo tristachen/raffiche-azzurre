@@ -17,6 +17,7 @@ const appendSpoilerElement = () => {
   }
 };
 
+//don't apply on info/match-*/fixture
 if (location.href.search('fixture') < 0) {
   appendSpoilerElement();
 }
