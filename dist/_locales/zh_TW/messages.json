@@ -1,12 +1,12 @@
 {
-  "text_trainer": { "message": "訓練中心" },
-  "text_youth": { "message": "青訓中心" },
-  "text_scout": { "message": "球員觀察名單" },
-  "text_friendlies": { "message": "友誼賽" },
-  "text_bsquad": { "message": "預備隊" },
-  "text_auto_ad_on": { "message": "開始自動點選廣告" },
-  "text_auto_ad_off": { "message": "停止自動點選廣告" },
-  "text_timers": {"message": "次" },
+  "label_trainer": { "message": "訓練中心" },
+  "label_youth": { "message": "青訓中心" },
+  "label_scout": { "message": "球員觀察名單" },
+  "label_friendlies": { "message": "友誼賽" },
+  "label_bsquad": { "message": "預備隊" },
+  "label_auto_ad_on": { "message": "開始自動點選廣告" },
+  "label_auto_ad_off": { "message": "停止自動點選廣告" },
+  "label_times": {"message": "次" },
   "spoiler": { "message": "劇透" },
 
   "position_attack"     : { "message": "前鋒" },
@@ -54,6 +54,6 @@
   "player_player_score": { "message": "球員評分" },
 
 
-  "text_multi_challenge": { "message": "挑戰多次" },
+  "label_multi_challenge": { "message": "挑戰多次" },
   "msg_multi_challenge": { "message": "已經向隊伍 {0} 發出了 {1} 次友誼賽請求，請等待對方接受"}
 }

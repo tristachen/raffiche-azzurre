@@ -42,8 +42,8 @@ const appendMultiChallengeElement = () => {
     alert(chrome.i18n.getMessage('msg_multi_challenge').format(teamName, TIMES));
   };
 
-  const text = chrome.i18n.getMessage('text_multi_challenge'),
-        btn = utils.createButton(text, onclick);
+  const label = chrome.i18n.getMessage('label_multi_challenge'),
+        btn = utils.createButton(label, onclick);
   document.querySelector('div.center').appendChild(btn);
 };
 

@@ -33,7 +33,7 @@ const appendHyperlink = () => {
 
   linkKeys.forEach(key => {
     const url = prefixUrl + HYPERLINKS_MAP[key],
-          i18nKey = 'text_' + key;
+          i18nKey = 'label_' + key;
     elLinks.appendChild(<a href={url}>{chrome.i18n.getMessage(i18nKey)} </a>);
   });
   elContent.insertBefore(elLinks, elContent.firstChild);
@@ -47,17 +47,17 @@ const appendAutoClickAdElement = () => {
 
   const renderAdToggleElement = isAdEnabled => {
     const flag = isAdEnabled ? 'off' : 'on',
-          i18nKey = 'text_auto_ad_{0}'.format(flag),
-          btnText = chrome.i18n.getMessage(i18nKey),
+          i18nKey = 'label_auto_ad_{0}'.format(flag),
+          btnLabel = chrome.i18n.getMessage(i18nKey),
           count = parseInt(localStorage.getItem(STORAGE_KEY), 10) || 0;
     if (elAdToggle) {
       elAdToggle.parentNode.removeChild(elAdToggle);
     }
     elAdToggle = (
       <div>
-        <button id='btn-toggle-ad' data-toggle={flag}>{btnText}</button>
+        <button id='btn-toggle-ad' data-toggle={flag}>{btnLabel}</button>
         <input id='input-ad-count' disabled={isAdEnabled} value={count}/>
-        <span>次</span>
+        <span>{chrome.i18n.getMessage('label_times')}</span>
       </div>
     );
     elContent.insertBefore(elAdToggle, elContent.firstChild.nextElementSibling);
