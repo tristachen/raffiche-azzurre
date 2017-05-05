@@ -1,9 +1,12 @@
 {
-  "train": { "message": "訓練中心" },
-  "youth": { "message": "青訓中心" },
-  "scout": { "message": "球員觀察名單" },
-  "friendlies": { "message": "友誼賽" },
-  "bsquad": { "message": "預備隊" },
+  "text_trainer": { "message": "訓練中心" },
+  "text_youth": { "message": "青訓中心" },
+  "text_scout": { "message": "球員觀察名單" },
+  "text_friendlies": { "message": "友誼賽" },
+  "text_bsquad": { "message": "預備隊" },
+  "text_auto_ad_on": { "message": "開始自動點選廣告" },
+  "text_auto_ad_off": { "message": "停止自動點選廣告" },
+  "text_timers": {"message": "次" },
   "spoiler": { "message": "劇透" },
 
   "position_attack"     : { "message": "前鋒" },

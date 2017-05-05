@@ -1,68 +1,99 @@
+/*
+ * - 增加超連結 [appendHyperlink]
+ * - 自動點選廣告 [appendAutoClickAdElement]
+ *   - localStorage key: auto-ad-count
+ *   - if (hasAdLink) {
+ *       if (auto-ad-count > 0) {
+ *         clickAdAndReload();
+ *         renderAdToggleElement(off);
+ *       } else {
+ *         renderAdToggleElement(on);
+ *       }
+ *     }
+ */
+
+import React from '../utils/react-like.js';
+import * as utils from '../utils/common.js';
 import * as request from '../utils/request.js';
 
-import css from '../../styles/index.styl';
-import routerPath from '../url-mappings.json';
-import React from '../utils/react-like.js';
+const HYPERLINKS_MAP = {
+  trainer: '/facilities/trainer/train-goalkeeping',
+  youth: '/facilities/youth/log',
+  scout: '/facilities/scout/players',
+  friendlies: '/friendlies/friendlies',
+  bsquad: '/players/bsquad'
+};
 
-//TODO: generate prefix url
-const paths = location.pathname.split('/');
-const prefixUrl = location.origin + '/' + paths[1] + '/' + paths[2];
-const btnKeys = ['train', 'youth', 'scout', 'friendlies', 'bsquad'];
-const elemContent = document.getElementById('content');
-const elemLinks = document.createElement('div');
+const appendHyperlink = () => {
+  const paths = location.pathname.split('/'),
+        prefixUrl = '{0}/{1}/{2}'.format(location.origin, paths[1], paths[2]),
+        linkKeys = ['trainer', 'youth', 'scout', 'friendlies', 'bsquad'],
+        elContent = document.querySelector('#content'),
+        elLinks = <div></div>;
 
-btnKeys.forEach(key => {
-  const link = document.createElement('a');
-  link.href = prefixUrl + routerPath[key];
-  link.innerText = chrome.i18n.getMessage(key);
-  link.className = 'link';
-  elemLinks.appendChild(link);
-});
-elemContent.insertBefore(elemLinks, elemContent.firstChild);
-
-
-
-const autoAd = () => {
-  const SELECTOR_VOTE_SITE = 'a.external';
-  document.querySelectorAll(SELECTOR_VOTE_SITE).forEach(el => {
-    request.get(el.href);
+  linkKeys.forEach(key => {
+    const url = prefixUrl + HYPERLINKS_MAP[key],
+          i18nKey = 'text_' + key;
+    elLinks.appendChild(<a href={url}>{chrome.i18n.getMessage(i18nKey)} </a>);
   });
-  let count = parseInt(document.querySelector('#input-ad-count').value, 10);
-  count--;
-  localStorage.setItem('ad-count', count);
-  setTimeout(() => location.reload(), 1000);
+  elContent.insertBefore(elLinks, elContent.firstChild);
 };
 
-const toggleAd = e => {
-  const isAd = e.currentTarget.dataset.ad === 'true';
-  let count = parseInt(document.querySelector('#input-ad-count').value, 10);
-  if (isAd && count > 0) {
-    autoAd();
-  } else {
-    localStorage.setItem('ad-count', 0);
+const appendAutoClickAdElement = () => {
+  const STORAGE_KEY = 'auto-ad-count',
+        elContent = document.querySelector('#content'),
+        elAdLinks = document.querySelectorAll('a.external');
+  let elAdToggle, timer;
+
+  const renderAdToggleElement = isAdEnabled => {
+    const flag = isAdEnabled ? 'off' : 'on',
+          i18nKey = 'text_auto_ad_{0}'.format(flag),
+          btnText = chrome.i18n.getMessage(i18nKey),
+          count = parseInt(localStorage.getItem(STORAGE_KEY), 10) || 0;
+    if (elAdToggle) {
+      elAdToggle.parentNode.removeChild(elAdToggle);
+    }
+    elAdToggle = (
+      <div>
+        <button id='btn-toggle-ad' data-toggle={flag}>{btnText}</button>
+        <input id='input-ad-count' disabled={isAdEnabled} value={count}/>
+        <span>次</span>
+      </div>
+    );
+    elContent.insertBefore(elAdToggle, elContent.firstChild.nextElementSibling);
+    document.querySelector('#btn-toggle-ad').addEventListener('click', toggleAd);
+  };
+
+  const toggleAd = e => {
+    const count = parseInt(document.querySelector('#input-ad-count').value, 10) || 0,
+          isAdEnabled = (e.currentTarget.dataset.toggle === 'on') && count > 0;
+    if (isAdEnabled) {
+      localStorage.setItem(STORAGE_KEY, count);
+      clickAdAndReload();
+    } else {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      localStorage.setItem(STORAGE_KEY, 0);
+    }
+    renderAdToggleElement(isAdEnabled);
+  };
+
+  const clickAdAndReload = () => {
+    elAdLinks.forEach(el => request.get(el.href, { mode: 'no-cors' }));
+    const count = parseInt(localStorage.getItem(STORAGE_KEY), 10) || 0;
+    localStorage.setItem(STORAGE_KEY, count - 1);
+    timer = setTimeout(() => location.reload(), 1000);
+  };
+
+  if (elAdLinks.length > 0) {
+    const isAdEnabled = parseInt(localStorage.getItem(STORAGE_KEY), 10) > 0;
+    if (isAdEnabled) {
+      clickAdAndReload();
+    }
+    renderAdToggleElement(isAdEnabled);
   }
-  // renderAdingDom(isAd);
 };
 
-const renderAdingDom = isAd => {
-  const btnText = isAd ? '停止自動點選廣告' : '自動點選廣告';
-  const count = parseInt(localStorage.getItem('ad-count'), 10);
-  const el = (
-    <div id='el-autoAd-area'>
-      <input id='input-ad-count' disabled={isAd} value={count || 0}/>
-      <button id='btn-toggle-ad' data-ad={(!isAd).toString()}>{btnText}</button>
-    </div>
-  );
-  elemLinks.appendChild(el);
-  document.querySelector('#btn-toggle-ad').addEventListener('click', toggleAd);
-};
-
-const isAutoAd = parseInt(localStorage.getItem('ad-count'), 10) > 0;
-
-if (document.querySelectorAll('a.external').length > 0) {
-  renderAdingDom(isAutoAd);
-}
-
-if (isAutoAd) {
-  autoAd();
-}
+appendHyperlink();
+appendAutoClickAdElement();
