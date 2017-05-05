@@ -72,8 +72,7 @@ const appendExtraInfo = () => {
               playerInfo = htmlParser(el);
         appendPlayerInfo(tr, playerInfo);
         appendTrainInfo(tr);
-      })
-      .catch(err => console.log(err));
+      });
     }
   });
 };

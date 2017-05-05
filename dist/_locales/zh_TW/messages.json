@@ -8,9 +8,11 @@
   "label_auto_ad_off": { "message": "停止自動點選廣告" },
   "label_auto_match_on": { "message": "開始自動觀看比賽" },
   "label_auto_match_off": { "message": "停止自動觀看比賽" },
-  "label_times": {"message": "次" },
+  "label_times": {"message": "次 (每秒刷新)" },
   "label_spoiler": { "message": "劇透" },
   "label_refresh": { "message": "刷新時間: {0} (每 {1} 分鐘刷新一次)" },
+  "label_auto_buy_ticket": { "message": "自動購票" },
+  "label_buy_free_ticket": { "message": "免費買票" },
 
   "position_attack"     : { "message": "前鋒" },
   "position_midfield"   : { "message": "中場" },
@@ -58,5 +60,7 @@
 
 
   "label_multi_challenge": { "message": "挑戰多次" },
-  "msg_multi_challenge": { "message": "已經向隊伍 {0} 發出了 {1} 次友誼賽請求，請等待對方接受"}
+  "msg_multi_challenge": { "message": "已經向隊伍 {0} 發出了 {1} 次友誼賽請求，請等待對方接受。"},
+  "msg_buy_ticket_completed": { "message": "** 已購入全部門票 **" },
+  "msg_selected_ticket_return_url": { "message": "您已選擇 {0} 做為回購門票連結。" }
 }

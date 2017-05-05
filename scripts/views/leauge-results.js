@@ -1,73 +1,78 @@
-import * as request from '../utils/request.js';
+/*
+ * - 自動買票 [appendBuyTicketElement]
+ *   - getReturnUrlByIndex
+ *   - batchBuyTicket
+ */
+
 import React from '../utils/react-like.js';
+import * as utils from '../utils/common.js';
+import * as request from '../utils/request.js';
 
-const elTickets = document.querySelectorAll('.tickets-link');
+const elContatiner = document.querySelector('.center h3'),
+      elTickets = document.querySelectorAll('.tickets-link');
 
-if (elTickets.length > 0) {
-
-  const autoBuy = returnTicketUrl => {
-    let completedTask = 0;
-
-    const buyTicket = idx => {
-      const url = elTickets[idx];
-      const name = elTickets[idx].parentElement.previousElementSibling.textContent;
-
-      return request.post(url, {
-        data: {
-          return_url: returnTicketUrl,
-          buy_ticket: '免費買票'
-        }
-      })
-        .then(data => data.text())
-        .then(text => {
-          const parser = new DOMParser(),
-                doc = parser.parseFromString(text, 'text/html');
-          const el = doc.querySelector('.sys_notices');
-          document.querySelector('.center h3').appendChild(
-            <div>{'訊息已傳送給' + name + ', 並隨信附上你的販賣門票連結'}</div>
-          );
-          document.querySelector('.center h3').appendChild(
-            <div>{el.textContent}</div>
-          );
-
-          completedTask++;
-          if (completedTask >= elTickets.length) {
-            document.querySelector('#btn-auto-buy-ticket').textContent = '全部完成';
-          } else {
-            setTimeout(() => {
-              buyTicket(completedTask);
-            }, 1000);
-          }
-        });
-    };
-
-    buyTicket(0);
-  }
-
-  //get return ticket link, so only once
-  //TODO, if cannnot get return url ?
-  const ticketUrl = elTickets[0].href;
-  request.get(ticketUrl)
-    .then(data => data.text())
-    .then(text => {
-      const parser = new DOMParser(),
-            doc = parser.parseFromString(text, 'text/html');
-
-      const elSelectTicket = doc.querySelector('select.return-url');
-
-      document.querySelector('.center h3').appendChild(elSelectTicket);
-      const btn = document.createElement('button');
-      btn.id = 'btn-auto-buy-ticket';
-      btn.textContent = '自動購票';
-      btn.onclick = e => {
-        const returnTicketUrl = elSelectTicket.options[elSelectTicket.selectedIndex].value;
-        document.querySelector('.center h3').appendChild(
-          <div>{'你選擇的回購連結: ' + (returnTicketUrl || '無')}</div>
-        );
-        autoBuy(returnTicketUrl);
+const getReturnUrlByIndex = i => {
+  const ticketUrl = elTickets[i].href;
+  request.get(ticketUrl).then(doc => {
+    const elSelectTicket = doc.querySelector('select.return-url');
+    if (elSelectTicket) {
+      const onclick = e => {
+        const selectedIndex = elSelectTicket.selectedIndex,
+              returnUrl = elSelectTicket.options[selectedIndex].value,
+              ticketName = elSelectTicket.options[selectedIndex].text,
+              i18nKey = 'msg_selected_ticket_return_url',
+              msgSelected = chrome.i18n.getMessage(i18nKey).format(ticketName);
+        elBuyTicket.parentElement.removeChild(elBuyTicket);
+        elContatiner.appendChild(<div>{msgSelected}</div>);
+        batchBuyTicket(returnUrl);
       };
-      document.querySelector('.center h3').appendChild(btn);
+      const label = chrome.i18n.getMessage('label_auto_buy_ticket'),
+            btn = utils.createButton(label, onclick);
+      const elBuyTicket = (
+        <div>
+          {elSelectTicket}
+          {btn}
+        </div>
+      );
+      elContatiner.appendChild(elBuyTicket);
+    } else {
+      //util get return url
+      getReturnUrlByIndex(i+1);
+    }
+  });
+};
 
-    })
-    .catch(err => console.log(err));
-}
+const batchBuyTicket = returnUrl => {
+  let completedTickets = 0;
+
+  const buyTicketByIndex = i => {
+    const ticketUrl = elTickets[i],
+          name = elTickets[i].parentElement.previousElementSibling.textContent;
+    const data = {
+      return_url: returnUrl,
+      buy_ticket: chrome.i18n.getMessage('label_buy_free_ticket')
+    };
+    request.post(ticketUrl, { data }).then(doc => {
+      const sysMsg = doc.querySelector('.sys_notices').textContent;
+      elContatiner.appendChild(<div>{'* ' + sysMsg}</div>);
+
+      completedTickets++;
+      if (completedTickets >= elTickets.length) {
+        const completedMsg = chrome.i18n.getMessage('msg_buy_ticket_completed');
+        elContatiner.appendChild(<div>{completedMsg}</div>);
+      } else {
+        setTimeout(() => buyTicketByIndex(completedTickets), 1000);
+      }
+    });
+  };
+
+  buyTicketByIndex(0);
+};
+
+const appendBuyTicketElement = () => {
+  if (elTickets.length > 0) {
+    getReturnUrlByIndex(0);
+  }
+};
+
+appendBuyTicketElement();
