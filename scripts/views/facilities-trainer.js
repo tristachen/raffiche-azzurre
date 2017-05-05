@@ -64,14 +64,17 @@ const appendExtraInfo = () => {
   };
 
   elBodyRow.forEach(tr => {
-    const playerUrl = tr.querySelector('td:first-child a:nth-child(2)').href;
-    request.get(playerUrl).then(doc => {
-      const el = doc.querySelector('div.center'),
-            playerInfo = htmlParser(el);
-      appendPlayerInfo(tr, playerInfo);
-      appendTrainInfo(tr);
-    })
-    .catch(err => console.log(err));
+    const elPlayerName = tr.querySelector('td:first-child a:nth-child(2)'),
+          playerUrl = elPlayerName && elPlayerName.href;
+    if (playerUrl) {
+      request.get(playerUrl).then(doc => {
+        const el = doc.querySelector('div.center'),
+              playerInfo = htmlParser(el);
+        appendPlayerInfo(tr, playerInfo);
+        appendTrainInfo(tr);
+      })
+      .catch(err => console.log(err));
+    }
   });
 };
 
