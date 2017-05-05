@@ -55,13 +55,13 @@ const appendAutoClickAdElement = () => {
     }
     elAdToggle = (
       <div>
-        <button id='btn-toggle-ad' data-toggle={flag}>{btnLabel}</button>
+        <button id='btn-toggle' data-toggle={flag}>{btnLabel}</button>
         <input id='input-ad-count' disabled={isAdEnabled} value={count}/>
         <span>{chrome.i18n.getMessage('label_times')}</span>
       </div>
     );
     elContainer.insertBefore(elAdToggle, elContainer.firstChild.nextElementSibling);
-    document.querySelector('#btn-toggle-ad').addEventListener('click', toggleAd);
+    document.querySelector('#btn-toggle').addEventListener('click', toggleAd);
   };
 
   const toggleAd = e => {

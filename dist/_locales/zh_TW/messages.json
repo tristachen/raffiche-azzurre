@@ -6,8 +6,11 @@
   "label_bsquad": { "message": "預備隊" },
   "label_auto_ad_on": { "message": "開始自動點選廣告" },
   "label_auto_ad_off": { "message": "停止自動點選廣告" },
+  "label_auto_match_on": { "message": "開始自動觀看比賽" },
+  "label_auto_match_off": { "message": "停止自動觀看比賽" },
   "label_times": {"message": "次" },
   "label_spoiler": { "message": "劇透" },
+  "label_refresh": { "message": "刷新時間: {0} (每 {1} 分鐘刷新一次)" },
 
   "position_attack"     : { "message": "前鋒" },
   "position_midfield"   : { "message": "中場" },
