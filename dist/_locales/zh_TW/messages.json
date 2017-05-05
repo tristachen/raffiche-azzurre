@@ -7,7 +7,7 @@
   "label_auto_ad_on": { "message": "開始自動點選廣告" },
   "label_auto_ad_off": { "message": "停止自動點選廣告" },
   "label_times": {"message": "次" },
-  "spoiler": { "message": "劇透" },
+  "label_spoiler": { "message": "劇透" },
 
   "position_attack"     : { "message": "前鋒" },
   "position_midfield"   : { "message": "中場" },

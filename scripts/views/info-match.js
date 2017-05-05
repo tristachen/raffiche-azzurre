@@ -1,17 +1,22 @@
-if (location.href.search('fixture') < 0) {
-  const SELECTOR_RESULTS = '.notes > ul > li';
-  const SELECTOR_INSERT_TARGET = '.middle';
+/*
+ * - 劇透功能
+ */
 
-  const elResults = document.querySelectorAll(SELECTOR_RESULTS);
+import React from '../utils/react-like.js';
+import * as utils from '../utils/common.js';
+
+const appendSpoilerElement = () => {
+  const elContainer = document.querySelector('.middle'),
+        elResults = document.querySelectorAll('.notes > ul > li');
 
   if (elResults.length > 1) {
-    const insertTarget = document.querySelector(SELECTOR_INSERT_TARGET);
-    const container = document.createElement('div');
-    const btnResult = document.createElement('button');
-    btnResult.textContent = chrome.i18n.getMessage('spoiler');
-    btnResult.onclick = e => document.querySelector(SELECTOR_RESULTS).click();
-    container.appendChild(btnResult);
-    insertTarget.insertBefore(container, insertTarget.firstChild);
+    const label = chrome.i18n.getMessage('label_spoiler'),
+          onclick = e => elResults[0].click(),
+          btn = utils.createButton(label, onclick);
+    elContainer.insertBefore(<div>{btn}</div>, elContainer.firstChild);
   }
-}
+};
 
+if (location.href.search('fixture') < 0) {
+  appendSpoilerElement();
+}

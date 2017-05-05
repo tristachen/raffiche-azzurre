@@ -28,7 +28,7 @@ const appendHyperlink = () => {
   const paths = location.pathname.split('/'),
         prefixUrl = '{0}/{1}/{2}'.format(location.origin, paths[1], paths[2]),
         linkKeys = ['trainer', 'youth', 'scout', 'friendlies', 'bsquad'],
-        elContent = document.querySelector('#content'),
+        elContainer = document.querySelector('#content'),
         elLinks = <div></div>;
 
   linkKeys.forEach(key => {
@@ -36,12 +36,12 @@ const appendHyperlink = () => {
           i18nKey = 'label_' + key;
     elLinks.appendChild(<a href={url}>{chrome.i18n.getMessage(i18nKey)} </a>);
   });
-  elContent.insertBefore(elLinks, elContent.firstChild);
+  elContainer.insertBefore(elLinks, elContainer.firstChild);
 };
 
 const appendAutoClickAdElement = () => {
   const STORAGE_KEY = 'auto-ad-count',
-        elContent = document.querySelector('#content'),
+        elContainer = document.querySelector('#content'),
         elAdLinks = document.querySelectorAll('a.external');
   let elAdToggle, timer;
 
@@ -60,7 +60,7 @@ const appendAutoClickAdElement = () => {
         <span>{chrome.i18n.getMessage('label_times')}</span>
       </div>
     );
-    elContent.insertBefore(elAdToggle, elContent.firstChild.nextElementSibling);
+    elContainer.insertBefore(elAdToggle, elContainer.firstChild.nextElementSibling);
     document.querySelector('#btn-toggle-ad').addEventListener('click', toggleAd);
   };
 
