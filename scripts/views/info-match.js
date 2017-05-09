@@ -1,5 +1,5 @@
 /*
- * - 劇透功能
+ * - 劇透功能 [appendSpoilerElement]
  */
 
 import React from '../utils/react-like.js';

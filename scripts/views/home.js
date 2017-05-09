@@ -17,11 +17,11 @@ import * as utils from '../utils/common.js';
 import * as request from '../utils/request.js';
 
 const HYPERLINKS_MAP = {
-  trainer: '/facilities/trainer/train-goalkeeping',
-  youth: '/facilities/youth/log',
-  scout: '/facilities/scout/players',
+  trainer   : '/facilities/trainer/train-goalkeeping',
+  youth     : '/facilities/youth/log',
+  scout     : '/facilities/scout/players',
   friendlies: '/friendlies/friendlies',
-  bsquad: '/players/bsquad'
+  bsquad    : '/players/bsquad'
 };
 
 const appendHyperlink = () => {

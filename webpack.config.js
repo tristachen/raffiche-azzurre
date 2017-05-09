@@ -12,6 +12,7 @@ const config = {
       'home': path.resolve(__dirname, 'scripts/views/home.js'),
       'info-player': path.resolve(__dirname, 'scripts/views/info-player.js'),
       'info-team': path.resolve(__dirname, 'scripts/views/info-team.js'),
+      'info-team-parade': path.resolve(__dirname, 'scripts/views/info-team-parade.js'),
       'info-match': path.resolve(__dirname, 'scripts/views/info-match.js'),
       'facilities-trainer': path.resolve(__dirname, 'scripts/views/facilities-trainer.js'),
       'facilities-players': path.resolve(__dirname, 'scripts/views/facilities-players.js'),

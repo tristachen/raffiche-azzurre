@@ -13,6 +13,9 @@
   "label_refresh": { "message": "刷新時間: {0} (每 {1} 分鐘刷新一次)" },
   "label_auto_buy_ticket": { "message": "自動購票" },
   "label_buy_free_ticket": { "message": "免費買票" },
+  "label_back_team": { "message": "返回 {0}" },
+  "label_parade": { "message": "閱兵" },
+  "label_all": { "message": "全部" },
 
   "position_attack"     : { "message": "前鋒" },
   "position_midfield"   : { "message": "中場" },
@@ -30,7 +33,7 @@
   "player_special_attributes": { "message": "特殊屬性" },
   "player_market_value"      : { "message": "市場價值 (預估)" },
   "player_fitness"           : { "message": "身體狀態" },
-  "player_club"              : { "message": "球會" },
+  "player_team"              : { "message": "球會" },
 
   "player_talent"     : { "message": "天賦" },
   "player_scoring"    : { "message": "射門" },
@@ -57,6 +60,10 @@
 
   "player_total_exp": { "message": "估算經驗值" },
   "player_player_score": { "message": "球員評分" },
+  "player_main_fixed_feature": { "message": "主屬性" },
+  "player_main_trainable_feature": { "message": "主技能" },
+  "player_position_exp": { "message": "位置經驗" },
+
 
 
   "label_multi_challenge": { "message": "挑戰多次" },
