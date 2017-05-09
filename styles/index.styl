@@ -7,3 +7,37 @@
   box-sizing: border-box !important;
   padding: 10px !important;
 }
+
+
+.tooltips--player {
+  position: absolute;
+  background: rgba(255, 255, 255, .9);
+  top: 5px;
+  left: -20rem;
+  width: 20rem;
+  padding: 1rem;
+  box-sizing: content-box;
+  z-index: 99999;
+}
+
+.tooltips__label {
+  margin-right: .5rem;
+  display: inline-block;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  vertical-align: middle;
+}
+
+.tooltips__one-col,
+.tooltips__two-col {
+  margin: .5rem 0;
+}
+.tooltips__two-col {
+  .tooltips__label {
+    width: 2rem;
+  }
+  .tooltips__value {
+    display: inline-block;
+    width: 6rem;
+  }
+}

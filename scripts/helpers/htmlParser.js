@@ -14,7 +14,7 @@ const parserSettings = [
   { key: 'special_attributes' },  //TODO: special-parser
   { key: 'market_value', format: 'money' },
   { key: 'fitness', parser: 'first-attr-title' },
-  { key: 'club', parser: 'last-text' },
+  { key: 'team', parser: 'last-text' },
 
   { key: 'talent' },
   { key: 'scoring' },
@@ -41,7 +41,9 @@ const parserSettings = [
 ];
 
 const getFirstText = el => {
-  return el.firstChild.textContent.trim();
+  if (el && el.firstChild) {
+    return el.firstChild.textContent.trim();
+  }
 };
 
 const getFirstTitleAttribute = el => {
@@ -194,30 +196,31 @@ export default el => {
 
   //TODO: if age is xxx years (0%) ?
   const age = playerInfo.age.match(/\d+/g);
-  playerInfo.ageString = playerInfo.age;
+  playerInfo.age_string = playerInfo.age.match(/(.*)\(.*\)/)[1];
   playerInfo.age = parseFloat((parseInt(age[0], 10) + parseInt(age[1], 10) / 52).toFixed(2));
   playerInfo.agePercent = parseInt(age[2], 10);
+  playerInfo.training_morale = playerInfo.training_morale.match(/\((.*)\)/)[1];
 
   switch (playerInfo.position) {
     case chrome.i18n.getMessage('position_attack'):
-      playerInfo.positionExp = playerInfo.attack;
-      playerInfo.mainFixedFeature = playerInfo.speed; //TODO: why
-      playerInfo.mainTrainableFeature = playerInfo.scoring;
+      playerInfo.position_exp = playerInfo.attack;
+      playerInfo.main_fixed_feature = playerInfo.speed; //TODO: why
+      playerInfo.main_trainable_feature = playerInfo.scoring;
       break;
     case chrome.i18n.getMessage('position_midfield'):
-      playerInfo.positionExp = playerInfo.midfield;
-      playerInfo.mainFixedFeature = playerInfo.power;
-      playerInfo.mainTrainableFeature = playerInfo.passing;
+      playerInfo.position_exp = playerInfo.midfield;
+      playerInfo.main_fixed_feature = playerInfo.power;
+      playerInfo.main_trainable_feature = playerInfo.passing;
       break;
     case chrome.i18n.getMessage('position_defense'):
-      playerInfo.positionExp = playerInfo.defense;
-      playerInfo.mainFixedFeature = playerInfo.power;
-      playerInfo.mainTrainableFeature = playerInfo.dueling;
+      playerInfo.position_exp = playerInfo.defense;
+      playerInfo.main_fixed_feature = playerInfo.power;
+      playerInfo.main_trainable_feature = playerInfo.dueling;
       break;
     case chrome.i18n.getMessage('position_goalkeeping'):
-      playerInfo.positionExp = playerInfo.goalkeeping;
-      playerInfo.mainFixedFeature = playerInfo.speed;
-      playerInfo.mainTrainableFeature = playerInfo.blocking;
+      playerInfo.position_exp = playerInfo.goalkeeping;
+      playerInfo.main_fixed_feature = playerInfo.speed;
+      playerInfo.main_trainable_feature = playerInfo.blocking;
       break;
   }
 

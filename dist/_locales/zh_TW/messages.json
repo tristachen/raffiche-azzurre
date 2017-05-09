@@ -22,6 +22,7 @@
   "position_defense"    : { "message": "後衛" },
   "position_goalkeeping": { "message": "守門員" },
 
+  "player_name": { "message": "姓名" },
   "player_nationality"       : { "message": "國籍" },
   "player_language"          : { "message": "語言" },
   "player_age"               : { "message": "年齡" },

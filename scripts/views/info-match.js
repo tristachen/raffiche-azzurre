@@ -4,6 +4,7 @@
 
 import React from '../utils/react-like.js';
 import * as utils from '../utils/common.js';
+import * as playerDom from '../helpers/player-dom.js';
 
 const appendSpoilerElement = () => {
   const elContainer = document.querySelector('.middle'),
@@ -20,4 +21,5 @@ const appendSpoilerElement = () => {
 //don't apply on info/match-*/fixture
 if (location.href.search('fixture') < 0) {
   appendSpoilerElement();
+  playerDom.addTooltips();
 }
