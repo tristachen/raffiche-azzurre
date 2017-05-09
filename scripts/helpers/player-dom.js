@@ -83,7 +83,10 @@ export const addTooltips = () => {
             </div>
           </div>
         );
+
         el.parentElement.parentElement.appendChild(elTooltips);
+        elTooltips.style.left = e.clientX + 'px';
+        elTooltips.style.top = (e.clientY - 100) + 'px';
       });
     });
 
