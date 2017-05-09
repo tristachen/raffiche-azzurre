@@ -3,6 +3,7 @@
  */
 
 import React from '../utils/react-like.js';
+import * as playerDom from '../helpers/player-dom.js';
 
 const appendParadeElement = () => {
   const ulMenu = document.querySelector('.menu ul'),
@@ -11,3 +12,6 @@ const appendParadeElement = () => {
         label = chrome.i18n.getMessage('label_parade');
   ulMenu.appendChild(<li><a href={paradeUrl}>{label}</a></li>);
 };
+
+appendParadeElement();
+playerDom.addTooltips();
