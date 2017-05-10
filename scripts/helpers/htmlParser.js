@@ -11,7 +11,7 @@ const parserSettings = [
   { key: 'position' },
   { key: 'value' }, //TODO: 有可能為固定值, 也可能有上下限: 10-20 這樣的格式
   { key: 'experience' },
-  { key: 'special_attributes' },  //TODO: special-parser
+  { key: 'special_attributes', parser: 'multiline' },  //TODO: special-parser
   { key: 'market_value', format: 'money' },
   { key: 'fitness', parser: 'first-attr-title' },
   { key: 'team', parser: 'last-text' },
@@ -54,6 +54,10 @@ const getLastText = el => {
   return el.lastChild.textContent.trim();
 };
 
+const getMultiline = el => {
+  return [].map.call(el.querySelectorAll('span'), el => el.textContent);
+};
+
 const formatToMoney = str => {
   return str.replace(/\D+/g, '');
 };
@@ -79,6 +83,7 @@ const parse = (el, parser, format) => {
   switch (parser) {
     case 'first-attr-title': value = getFirstTitleAttribute(el); break;
     case 'last-text'       : value = getLastText(el); break;
+    case 'multiline'       : value = getMultiline(el); break;
     default                : value = getFirstText(el); break;
   }
   switch (format) {
@@ -178,10 +183,15 @@ const getExpScore = (total_exp, player_age) => {
   return parseInt(exp_score);
 };
 
-
-
-
-
+const getExpScore2 = (total_exp, player_age) => {
+  player_age = parseFloat(player_age);
+  if (player_age < 15.01) {
+    player_age = 15.01;
+  }
+  var exp = (25 - player_age) * 46000;
+  var exp_score = 100 * (total_exp + exp) / 460000;
+  return parseInt(exp_score);
+};
 
 export default el => {
   const elMap = generateElementMap(el),
@@ -198,7 +208,8 @@ export default el => {
   const age = playerInfo.age.match(/\d+/g);
   playerInfo.age_string = playerInfo.age.match(/(.*)\(.*\)/)[1];
   playerInfo.age = parseFloat((parseInt(age[0], 10) + parseInt(age[1], 10) / 52).toFixed(2));
-  playerInfo.agePercent = parseInt(age[2], 10);
+  playerInfo.age_array = [age[0], age[1]];
+  playerInfo.age_percent = parseInt(age[2], 10);
   playerInfo.training_morale = playerInfo.training_morale.match(/\((.*)\)/)[1];
 
   switch (playerInfo.position) {
@@ -206,28 +217,34 @@ export default el => {
       playerInfo.position_exp = playerInfo.attack;
       playerInfo.main_fixed_feature = playerInfo.speed; //TODO: why
       playerInfo.main_trainable_feature = playerInfo.scoring;
+      playerInfo.position_skill_name = chrome.i18n.getMessage('player_scoring');
       break;
     case chrome.i18n.getMessage('position_midfield'):
       playerInfo.position_exp = playerInfo.midfield;
       playerInfo.main_fixed_feature = playerInfo.power;
       playerInfo.main_trainable_feature = playerInfo.passing;
+      playerInfo.position_skill_name = chrome.i18n.getMessage('player_passing');
       break;
     case chrome.i18n.getMessage('position_defense'):
       playerInfo.position_exp = playerInfo.defense;
       playerInfo.main_fixed_feature = playerInfo.power;
       playerInfo.main_trainable_feature = playerInfo.dueling;
+      playerInfo.position_skill_name = chrome.i18n.getMessage('player_dueling');
       break;
     case chrome.i18n.getMessage('position_goalkeeping'):
       playerInfo.position_exp = playerInfo.goalkeeping;
       playerInfo.main_fixed_feature = playerInfo.speed;
       playerInfo.main_trainable_feature = playerInfo.blocking;
+      playerInfo.position_skill_name = chrome.i18n.getMessage('player_blocking');
       break;
   }
 
-  playerInfo.total_exp = getTotalEx(playerInfo.scoring, playerInfo.passing, playerInfo.dueling, playerInfo.tactics, playerInfo.blocking, playerInfo.agePercent);
+  playerInfo.total_exp = getTotalEx(playerInfo.scoring, playerInfo.passing, playerInfo.dueling, playerInfo.tactics, playerInfo.blocking, playerInfo.age_percent);
   playerInfo.player_score = getPlayerScore(playerInfo.total_exp, playerInfo.age, playerInfo.talent, playerInfo.endurance, playerInfo.power, playerInfo.speed, playerInfo.position);
   playerInfo.property_score = getPropertyScore(playerInfo.talent, playerInfo.endurance, playerInfo.power, playerInfo.speed, playerInfo.position);
-  playerInfo.exp_score = getExpScore(playerInfo.total_exp, playerInfo.age);
+  playerInfo.exp1 = playerInfo.exp_score = getExpScore(playerInfo.total_exp, playerInfo.age);
+  playerInfo.exp2 = getExpScore2(playerInfo.total_exp, playerInfo.age);
+
 
   return playerInfo;
 };

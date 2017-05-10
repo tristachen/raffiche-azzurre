@@ -64,8 +64,15 @@
   "player_main_fixed_feature": { "message": "主屬性" },
   "player_main_trainable_feature": { "message": "主技能" },
   "player_position_exp": { "message": "位置經驗" },
+  "player_exp1": { "message": "1.0經驗分" },
+  "player_exp2": { "message": "2.0經驗分" },
+  "label_player_growing_up": { "message": "球員經驗成長預估" },
+  "msg_player_growing_up": { "message": "訓練等級: {0}  訓練效果: {1}倍  職員加成: {2}%XP {3}" },
 
+  "trainer_lv": { "message": "等級" },
+  "trainer_bouns": { "message": "訓練收益" },
 
+  "player_special_attributes_hardworking": { "message": "勤奮" },
 
   "label_multi_challenge": { "message": "挑戰多次" },
   "msg_multi_challenge": { "message": "已經向隊伍 {0} 發出了 {1} 次友誼賽請求，請等待對方接受。"},
