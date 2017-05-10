@@ -10,17 +10,20 @@ const config = {
   base: {
     entry: {
       'home': path.resolve(__dirname, 'scripts/views/home.js'),
+      'players': path.resolve(__dirname, 'scripts/views/players.js'),
       'info-player': path.resolve(__dirname, 'scripts/views/info-player.js'),
       'info-team': path.resolve(__dirname, 'scripts/views/info-team.js'),
       'info-team-parade': path.resolve(__dirname, 'scripts/views/info-team-parade.js'),
       'info-match': path.resolve(__dirname, 'scripts/views/info-match.js'),
       'facilities-trainer': path.resolve(__dirname, 'scripts/views/facilities-trainer.js'),
+      'facilities-youth': path.resolve(__dirname, 'scripts/views/facilities-youth.js'),
       'facilities-players': path.resolve(__dirname, 'scripts/views/facilities-players.js'),
       'facilities-transferlist': path.resolve(__dirname, 'scripts/views/facilities-transferlist.js'),
       'leauge-results': path.resolve(__dirname, 'scripts/views/leauge-results.js'),
       'friendlies': path.resolve(__dirname, 'scripts/views/friendlies.js'),
       'matches': path.resolve(__dirname, 'scripts/views/matches.js'),
       'challenge': path.resolve(__dirname, 'scripts/views/challenge.js'),
+      'messages': path.resolve(__dirname, 'scripts/views/messages.js')
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
