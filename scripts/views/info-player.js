@@ -11,10 +11,10 @@ import * as playerHelper from '../models/player.js';
 
 
 const appendExtraInfo = () => {
+  const id = location.href.match(/.*\/player-(.*)/)[1];
   const el = document.querySelector('.center'),
         player = htmlParser(el);
-
-  ['total_exp', 'player_score'].forEach(key => {
+  ['total_exp2', 'player_score2', 'expscore1'].forEach(key => {
     const name = chrome.i18n.getMessage('player_' + key),
           value = player[key];
     const jsx = (
@@ -25,6 +25,19 @@ const appendExtraInfo = () => {
     );
     document.querySelector('.vertical_table > tbody').appendChild(jsx);
   });
+  document.querySelector('.vertical_table > tbody').appendChild(
+    <tr>
+      <th>{chrome.i18n.getMessage('player_note')}</th>
+      <td>
+        <input id='inputPlayerNote' value={localStorage.getItem('player_' + id + '_note')}/>
+        <button id='btnPlayerNote' disabled>{'OK'}</button>
+      </td>
+    </tr>
+  );
+  document.querySelector('#btnPlayerNote').onclick = e => {
+    const note = document.querySelector('#inputPlayerNote').value;
+    localStorage.setItem('player_' + id + '_note', note);
+  };
 
   if (player.age <= 30) {
     getTrain(player);

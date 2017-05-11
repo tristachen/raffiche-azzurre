@@ -60,12 +60,17 @@
   "player_training_morale": { "message": "訓練士氣" },
 
   "player_total_exp": { "message": "估算經驗值" },
+  "player_total_exp2": { "message": "總經驗值(預估值)" },
   "player_player_score": { "message": "球員評分" },
   "player_main_fixed_feature": { "message": "主屬性" },
   "player_main_trainable_feature": { "message": "主技能" },
   "player_position_exp": { "message": "位置經驗" },
   "player_exp1": { "message": "1.0經驗分" },
   "player_exp2": { "message": "2.0經驗分" },
+  "player_expscore1": { "message": "球員經驗1.0" },
+  "player_player_score2": { "message": "球員評分(預估值)" },
+  "player_score2_value": { "message": "{0}訓 ({1}分 屬性{2}分 經驗2.0 {3}分)"},
+  "player_note": { "message": "備註" },
   "label_player_growing_up": { "message": "球員經驗成長預估" },
   "msg_player_growing_up": { "message": "訓練等級: {0}  訓練效果: {1}倍  職員加成: {2}%XP {3}" },
 
