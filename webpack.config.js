@@ -23,7 +23,8 @@ const config = {
       'friendlies': path.resolve(__dirname, 'scripts/views/friendlies.js'),
       'matches': path.resolve(__dirname, 'scripts/views/matches.js'),
       'challenge': path.resolve(__dirname, 'scripts/views/challenge.js'),
-      'messages': path.resolve(__dirname, 'scripts/views/messages.js')
+      'messages': path.resolve(__dirname, 'scripts/views/messages.js'),
+      'transfers': path.resolve(__dirname, 'scripts/views/transfers.js'),
     },
     output: {
       path: path.resolve(__dirname, 'dist'),

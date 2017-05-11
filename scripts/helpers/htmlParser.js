@@ -1,4 +1,5 @@
 import Player from '../models/player.js';
+import * as utils from '../utils/common.js';
 
 const parserSettings = [
   { key: 'nationality' },
@@ -308,7 +309,9 @@ export default el => {
   parserSettings.forEach(setting => {
     const key = 'player_' + setting.key,
           i18nKey = chrome.i18n.getMessage(key);
-    playerInfo[setting.key] = parse(elMap[i18nKey], setting.parser, setting.format);
+    if (elMap[i18nKey]) {
+      playerInfo[setting.key] = parse(elMap[i18nKey], setting.parser, setting.format);
+    }
   });
 
   //TODO: if age is xxx years (0%) ?
