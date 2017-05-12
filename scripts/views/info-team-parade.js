@@ -30,7 +30,8 @@ const appendParadeInfo = () => {
     'talent', 'endurance', 'tactics',
     'main_fixed_feature', 'main_trainable_feature',
     'position_exp', 'total_exp', 'special_attributes', 'market_value',
-    'name', 'player_score', 'training_morale'
+    // 'name',
+    'player_score', 'training_morale'
   ];
   const elHeadRow = document.querySelector('.horizontal_table thead tr'),
         elBodyRow = document.querySelectorAll('.horizontal_table tbody tr'),

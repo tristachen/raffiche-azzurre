@@ -197,7 +197,7 @@ const getEx2 = (value, per, type) => {
     sum += expCost;
   }
   return sum;
-}
+};
 
 const getTotalEx = (scoring, passing, dueling, tactics, blocking, per) => {
   return parseInt(getEx(blocking, per, 'blocking') + getEx(dueling, per, 'dueling') + getEx(passing, per, 'passing') + getEx(scoring, per, 'scoring') + getEx(tactics, per, 'tactics'));
@@ -282,24 +282,24 @@ const getTrainGrade = (totalExp, player_age, talent_value) => {
     var exp1 = age2 * exp11 + age3 * exp41;
     var exp2 = totalExp - exp1;
     var i = parseInt(exp2 / (talent_value * (52 * age2 + age3)));
-    if (i > 107) grade = 9;
-    else if (i > 95) grade = 8;
-    else if (i > 83) grade = 7;
-    else if (i > 71) grade = 6;
-    else grade = 5;
+    if (i > 107) {grade = 9;}
+    else if (i > 95) {grade = 8;}
+    else if (i > 83) {grade = 7;}
+    else if (i > 71) {grade = 6;}
+    else {grade = 5;}
   } else if (totalExp > 6 * exp + exp22) { grade = 10; } else if (totalExp < 6 * exp + exp22) {
     var exp1 = 5 * exp11 + (age2 - 5) * exp23 + age3 * exp42;
     var i = parseInt((totalExp - exp1) / (talent_value * (52 * age2 + age3)));
-    if (i > 107) grade = 9;
-    else if (i > 95) grade = 8;
-    else if (i > 83) grade = 7;
-    else if (i > 71) grade = 6;
-    else grade = 5;
+    if (i > 107) {grade = 9;}
+    else if (i > 95) {grade = 8;}
+    else if (i > 83) {grade = 7;}
+    else if (i > 71) {grade = 6;}
+    else {grade = 5;}
   }
 
   return parseInt(grade);
   //  return parseFloat(grade);
-}
+};
 
 export default el => {
   let elMap = generateElementMap(el),
@@ -320,7 +320,7 @@ export default el => {
   playerInfo.age = parseFloat((parseInt(age[0], 10) + parseInt(age[1], 10) / 52).toFixed(2));
   playerInfo.age_array = [age[0], age[1]];
   playerInfo.age_percent = parseInt(age[2], 10);
-  playerInfo.training_morale = playerInfo.training_morale.match(/\((.*)\)/)[1];
+  playerInfo.training_morale = playerInfo.training_morale ? playerInfo.training_morale.match(/\((.*)\)/)[1] : 0;
 
   switch (playerInfo.position) {
     case chrome.i18n.getMessage('position_attack'):

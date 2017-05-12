@@ -4,7 +4,7 @@ import * as request from '../utils/request.js';
 import htmlParser from '../helpers/htmlParser.js';
 
 export const addTooltips = () => {
-  const linkPlayers = document.querySelectorAll('a[href *=player-]');
+  const linkPlayers = document.querySelectorAll('a[href *=player-]:not([href $=transfer])');
   linkPlayers.forEach(el => {
     const playerUrl = el.href;
     let elTooltips;
