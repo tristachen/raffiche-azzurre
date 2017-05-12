@@ -71,6 +71,8 @@
   "player_player_score2": { "message": "球員評分(預估值)" },
   "player_score2_value": { "message": "{0}訓 ({1}分 屬性{2}分 經驗2.0 {3}分)"},
   "player_note": { "message": "備註" },
+  "player_transfer_deadline": { "message": "期限" },
+  "player_bid_price": { "message": "掛牌價格" },
   "label_player_growing_up": { "message": "球員經驗成長預估" },
   "msg_player_growing_up": { "message": "訓練等級: {0}  訓練效果: {1}倍  職員加成: {2}%XP {3}" },
 
