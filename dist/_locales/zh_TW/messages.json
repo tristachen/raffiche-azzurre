@@ -28,6 +28,7 @@
   "player_nationality"       : { "message": "國籍" },
   "player_language"          : { "message": "語言" },
   "player_age"               : { "message": "年齡" },
+  "player_age_string"        : { "message": "年齡" },
   "player_weekly_wage"       : { "message": "週薪" },
   "player_yearly_wage"       : { "message": "年薪" },
   "player_position"          : { "message": "位置" },

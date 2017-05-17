@@ -10,7 +10,6 @@ const config = {
   base: {
     entry: {
       'home': path.resolve(__dirname, 'scripts/views/home.js'),
-      'players': path.resolve(__dirname, 'scripts/views/players.js'),
       'info-player': path.resolve(__dirname, 'scripts/views/info-player.js'),
       'info-team': path.resolve(__dirname, 'scripts/views/info-team.js'),
       'info-team-parade': path.resolve(__dirname, 'scripts/views/info-team-parade.js'),
@@ -23,11 +22,10 @@ const config = {
       'friendlies': path.resolve(__dirname, 'scripts/views/friendlies.js'),
       'matches': path.resolve(__dirname, 'scripts/views/matches.js'),
       'challenge': path.resolve(__dirname, 'scripts/views/challenge.js'),
-      'messages': path.resolve(__dirname, 'scripts/views/messages.js'),
-      'transfers': path.resolve(__dirname, 'scripts/views/transfers.js'),
+      'messages': path.resolve(__dirname, 'scripts/views/messages.js')
     },
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'dist/assets'),
       filename: '[name].js'
     },
     module: {

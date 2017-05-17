@@ -3,13 +3,12 @@
  * - localStorage key: transfer-check-items
  */
 
+import common from '../utils/common.js';
 import React from '../utils/react-like.js';
 import * as request from '../utils/request.js';
 import htmlParser from '../helpers/htmlParser.js';
 
 const PROP_KEYS = [
-  'age',
-
   'talent',
   'scoring',
 
@@ -27,7 +26,7 @@ const PROP_KEYS = [
   'special_attributes',
 
   'main_trainable_feature',
-  'total_exp',
+  'total_exp2',
   'player_score',
   'premium_rate',
   'born'
@@ -85,21 +84,33 @@ const appendExtraInfo = () => {
   elBodyRow.forEach(el => {
     const playerUrl = el.querySelector('td:first-child a:nth-child(2)').href,
           employmentUrl = playerUrl + '/employment';
+
+
     request.get(playerUrl).then(doc => {
       const player = htmlParser(doc.querySelector('.center'));
+      el.children[3].textContent = player.age_string;
+
+      const money = el.children[4].textContent,
+            moneyStr = money.match(/\D/ig)[0],
+            moneyInt = parseInt(money.replace(/\D/ig, ''), 10).format(0),
+            mm = moneyStr + moneyInt;
+
       player.bid_price = el.children[4].textContent.replace(/\D/ig, '');
       player.premium_rate = Math.round(player.bid_price * 100 / player.market_value) + '%';
-
+      el.children[4].textContent = mm;
+      player.total_exp2 = player.total_exp2.format(0);
 
       request.get(employmentUrl).then(doc => {
         const note = doc.querySelector('.footnote').textContent;
         player.born = ((note.match(/\d* 青訓中心/g) || note.match(/用 \d*/g) || [])[0]).replace(/\D/ig, '');
 
         keys.forEach(key => el.appendChild(<td>{player[key]}</td>));
+        $('.horizontal_table').trigger('update');
       });
     });
 
   });
+  $('.horizontal_table').tablesorter();
 };
 
 appendCheckItems();
