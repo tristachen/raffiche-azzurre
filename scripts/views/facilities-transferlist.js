@@ -6,31 +6,26 @@
 import React from '../utils/react-like.js';
 import * as request from '../utils/request.js';
 import htmlParser from '../helpers/htmlParser.js';
-import * as playerDom from '../helpers/player-dom.js';
 
 const PROP_KEYS = [
   'age',
 
   'talent',
   'scoring',
-  'attack',
 
   'endurance',
   'passing',
-  'midfield',
 
   'power',
   'dueling',
-  'defense',
 
   'speed',
   'blocking',
-  'goalkeeping',
 
   'tactics',
-  'flank',
 
-  'main_fixed_feature',
+  'special_attributes',
+
   'main_trainable_feature',
   'total_exp',
   'player_score',
@@ -61,7 +56,10 @@ const appendCheckItems = () => {
   keys = localStorage.getItem('transfer-check-items');
   keys = keys ? JSON.parse(keys) : [];
   keys.forEach(key => {
-    el.querySelector('input[value={0}]'.format(key)).checked = true;
+    const input = el.querySelector('input[value={0}]'.format(key));
+    if (input) {
+      input.checked = true;
+    }
   });
 
   el.querySelector('#btnCheck').onclick = e => {
@@ -106,5 +104,3 @@ const appendExtraInfo = () => {
 
 appendCheckItems();
 appendExtraInfo();
-playerDom.addTooltips();
-

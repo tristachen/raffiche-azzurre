@@ -3,7 +3,6 @@
  */
 
 import React from '../utils/react-like.js';
-import * as playerDom from '../helpers/player-dom.js';
 
 const appendParadeElement = () => {
   const ulMenu = document.querySelector('.menu ul'),
@@ -14,4 +13,3 @@ const appendParadeElement = () => {
 };
 
 appendParadeElement();
-playerDom.addTooltips();

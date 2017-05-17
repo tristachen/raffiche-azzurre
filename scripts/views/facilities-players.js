@@ -4,7 +4,6 @@
 
 import React from '../utils/react-like.js';
 import * as request from '../utils/request.js';
-import * as playerDom from '../helpers/player-dom.js';
 
 const appendExtraInfo = () => {
   const elHeadRow = document.querySelector('.horizontal_table thead tr');
@@ -25,5 +24,3 @@ const appendExtraInfo = () => {
 };
 
 appendExtraInfo();
-playerDom.addTooltips();
-
