@@ -29,7 +29,7 @@ const appendParadeInfo = () => {
   const keys = [
     'talent', 'endurance', 'tactics',
     'main_fixed_feature', 'main_trainable_feature',
-    'position_exp', 'total_exp', 'special_attributes', 'market_value',
+    'position_exp', 'total_exp2', 'special_attributes', 'market_value',
     // 'name',
     'player_score', 'training_morale'
   ];
