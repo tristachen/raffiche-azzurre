@@ -29,7 +29,7 @@ const appendExtraInfo = () => {
       <th>{chrome.i18n.getMessage('player_note')}</th>
       <td>
         <input id='inputPlayerNote' value={localStorage.getItem('player_' + id + '_note')}/>
-        <button id='btnPlayerNote' disabled>{'OK'}</button>
+        <button id='btnPlayerNote'>{'OK'}</button>
       </td>
     </tr>
   );
