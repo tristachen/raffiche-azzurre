@@ -6,14 +6,13 @@
 import React from '../utils/react-like.js';
 import * as utils from '../utils/common.js';
 import * as request from '../utils/request.js';
-import htmlParser from '../helpers/htmlParser.js';
-import * as playerHelper from '../models/player.js';
+import Player from '../models/player.js';
 
-
+let player;
 const appendExtraInfo = () => {
   const id = location.href.match(/.*\/player-(.*)/)[1];
-  const el = document.querySelector('.center'),
-        player = htmlParser(el);
+  const el = document.querySelector('.center');
+  player = new Player(el);
   ['total_exp2', 'player_score2', 'expscore1'].forEach(key => {
     const name = chrome.i18n.getMessage('player_' + key),
           value = player[key];
@@ -75,10 +74,10 @@ const appendGrowingUpInfo = (player, train) => {
   const tbody = (<tbody></tbody>);
   const age = parseInt(player.age, 10) + 1;
   for (let i = age; i <= 30; i++) {
-    const expc = playerHelper.futurecExp(i, player, player.age_array, player.total_exp, player.talent, trainMultiple, trainAddition, skill, player.main_trainable_feature, player.age_percent, player.position_skill_name),
-          exp = playerHelper.futureExp(i, player, player.age_array, player.total_exp, player.talent, trainMultiple, trainAddition, skill),
-          exp1 = playerHelper.getExpScore(exp, i),
-          exp2 = playerHelper.getExpScore2(exp, i);
+    const expc = player.futurecExp(i, player, player.age_array, player.total_exp, player.talent, trainMultiple, trainAddition, skill, player.main_trainable_feature, player.age_percent, player.position_skill_name),
+          exp = player.futureExp(i, player, player.age_array, player.total_exp, player.talent, trainMultiple, trainAddition, skill),
+          exp1 = player.getExpScore(exp, i),
+          exp2 = player.getExpScore2(exp, i);
 
     tbody.appendChild(
       <tr>

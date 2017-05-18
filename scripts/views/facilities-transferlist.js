@@ -6,7 +6,7 @@
 import common from '../utils/common.js';
 import React from '../utils/react-like.js';
 import * as request from '../utils/request.js';
-import htmlParser from '../helpers/htmlParser.js';
+import Player from '../models/player.js';
 
 const PROP_KEYS = [
   'talent',
@@ -87,7 +87,7 @@ const appendExtraInfo = () => {
 
 
     request.get(playerUrl).then(doc => {
-      const player = htmlParser(doc.querySelector('.center'));
+      const player = new Player(doc.querySelector('.center'));
       el.children[3].textContent = player.age_string;
 
       const money = el.children[4].textContent,

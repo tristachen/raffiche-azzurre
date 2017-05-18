@@ -8,7 +8,7 @@ import css from '../../styles/index.styl';
 import React from '../utils/react-like.js';
 import * as utils from '../utils/common.js';
 import * as request from '../utils/request.js';
-import htmlParser from '../helpers/htmlParser.js';
+import Player from '../models/player.js';
 
 const relayout = () => {
   document.querySelector('div#menu').outerHTML = '';
@@ -50,7 +50,7 @@ const appendParadeInfo = () => {
   elBodyRow.forEach(el => {
     const playerUrl = el.querySelector('td:first-child a').href;
     request.get(playerUrl).then(doc => {
-      const player = htmlParser(doc.querySelector('.center'));
+      const player = new Player(doc.querySelector('.center'));
 
       for (let i = 0; i < REMOVE_BEHIND_CHILD_NUM; i++) {
         el.removeChild(el.lastChild);

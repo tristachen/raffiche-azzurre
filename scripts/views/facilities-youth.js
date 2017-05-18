@@ -4,7 +4,7 @@
 
 import React from '../utils/react-like.js';
 import * as request from '../utils/request.js';
-import htmlParser from '../helpers/htmlParser.js';
+import Player from '../models/player.js';
 
 const appendExtraInfo = (keys, insertTo) => {
   if (keys.length <= 0) {
@@ -29,7 +29,7 @@ const appendExtraInfo = (keys, insertTo) => {
     if (playerUrl) {
       request.get(playerUrl).then(doc => {
         const el = doc.querySelector('div.center'),
-              player = htmlParser(el);
+              player = new Player(el);
         for (let i = keys.length - 1; i > -1; i--) {
           const key = keys[i],
                 td = <td>{player[key]}</td>;

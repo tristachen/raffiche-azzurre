@@ -1,102 +1,119 @@
-import css from '../../styles/index.styl';
-import React from '../utils/react-like.js';
+/*
+ * playerDOM.parse();
+ */
+
+import Player from '../models/player.js';
+import * as utils from '../utils/common.js';
 import * as request from '../utils/request.js';
-import htmlParser from '../helpers/htmlParser.js';
 
-export const addTooltips = () => {
-  const linkPlayers = document.querySelectorAll('a[href *=player-]:not([href $=transfer])');
-  linkPlayers.forEach(el => {
-    const playerUrl = el.href;
-    let elTooltips;
-    el.addEventListener('mouseover', e => {
-      if (elTooltips) {
-        return;
-      }
+const parserSettings = [
+  { key: 'nationality' },
+  { key: 'language' },
+  { key: 'age' },
 
-      request.get(playerUrl).then(doc => {
-        const player = htmlParser(doc.querySelector('div.center'));
-        elTooltips = (
-          <div class='tooltips--player'>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_name')}</span>
-              <span class='tooltips__value'>{player.name}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_age')}</span>
-              <span class='tooltips__value'>{player.age_string}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_position')}</span>
-              <span class='tooltips__value'>{player.position}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_special_attributes')}</span>
-              <span class='tooltips__value'>{player.special_attributes}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_value')}</span>
-              <span class='tooltips__value'>{player.value}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_market_value')}</span>
-              <span class='tooltips__value'>{player.market_value}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_talent')}</span>
-              <span class='tooltips__value'>{player.talent}</span>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_scoring')}</span>
-              <span class='tooltips__value'>{player.scoring}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_endurance')}</span>
-              <span class='tooltips__value'>{player.endurance}</span>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_passing')}</span>
-              <span class='tooltips__value'>{player.passing}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_power')}</span>
-              <span class='tooltips__value'>{player.power}</span>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_dueling')}</span>
-              <span class='tooltips__value'>{player.dueling}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_speed')}</span>
-              <span class='tooltips__value'>{player.speed}</span>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_blocking')}</span>
-              <span class='tooltips__value'>{player.blocking}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_tactics')}</span>
-              <span class='tooltips__value'>{player.tactics}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_position_exp')}</span>
-              <span class='tooltips__value'>{player.position_exp}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_player_score')}</span>
-              <span class='tooltips__value'>{player.player_score}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_total_exp')}</span>
-              <span class='tooltips__value'>{player.total_exp}</span>
-            </div>
-          </div>
-        );
+  { key: 'weekly_wage', format: 'money' },
+  { key: 'yearly_wage', format: 'money' },
 
-        el.parentElement.parentElement.appendChild(elTooltips);
-        elTooltips.style.left = e.clientX + 'px';
-        elTooltips.style.top = (e.clientY - 100) + 'px';
-      });
-    });
+  { key: 'position' },
+  { key: 'value' }, //TODO: 有可能為固定值, 也可能有上下限: 10-20 這樣的格式
+  { key: 'experience' },
+  { key: 'special_attributes', parser: 'multiline' },  //TODO: special-parser
+  { key: 'market_value', format: 'money' },
+  { key: 'fitness', parser: 'first-attr-title' },
+  { key: 'team', parser: 'last-text' },
 
-    el.addEventListener('mouseleave', e => {
-      if (!elTooltips) {
-        return;
-      }
+  { key: 'talent' },
+  { key: 'scoring' },
+  { key: 'attack' },
 
-      elTooltips.outerHTML = '';
-      elTooltips = null;
-    });
+  { key: 'endurance' },
+  { key: 'passing' },
+  { key: 'midfield' },
+
+  { key: 'power' },
+  { key: 'dueling' },
+  { key: 'defense' },
+
+  { key: 'speed' },
+  { key: 'blocking' },
+  { key: 'goalkeeping' },
+
+  { key: 'tactics' },
+  { key: 'flank' },
+
+  { key: 'number_of_fixed_attribute_trainings' },
+  { key: 'next_fixed_training_cost' },
+  { key: 'training_morale' }
+];
+
+const getFirstText = el => {
+  if (el && el.firstChild) {
+    if (el.firstChild.textContent) {
+      return el.firstChild.textContent.trim();
+    } else {
+      return el.firstChild.getAttribute('title').trim();
+    }
+  }
+};
+
+const getFirstTitleAttribute = el => {
+  return el.firstChild.getAttribute('title').trim();
+};
+
+const getLastText = el => {
+  return el.lastChild.textContent.trim();
+};
+
+const getMultiline = el => {
+  return [].map.call(el.querySelectorAll('span'), el => el.textContent);
+};
+
+const formatToMoney = str => {
+  return str.replace(/\D+/g, '');
+};
+
+const generateElementMap = el => {
+  const elMap = {};
+
+  el.querySelectorAll('th').forEach(th => {
+    const key = getFirstText(th),
+          td = th.nextElementSibling;
+    if (key && td) {
+      elMap[key] = td;
+    } else {
+      /* do nothing */
+    }
   });
+
+  return elMap;
+};
+
+const parsese = (el, parser, format) => {
+  let value = '';
+  switch (parser) {
+    case 'first-attr-title': value = getFirstTitleAttribute(el); break;
+    case 'last-text'       : value = getLastText(el); break;
+    case 'multiline'       : value = getMultiline(el); break;
+    default                : value = getFirstText(el); break;
+  }
+  switch (format) {
+    case 'money': value = formatToMoney(value); break;
+    default: /* do nothing */ break;
+  }
+  return value;
+};
+
+export const parse = el => {
+  let elMap = generateElementMap(el),
+        playerInfo = {};
+
+  playerInfo.name = getFirstText(el.querySelector('h2'));
+  parserSettings.forEach(setting => {
+    const key = 'player_' + setting.key,
+          i18nKey = chrome.i18n.getMessage(key);
+    if (elMap[i18nKey]) {
+      playerInfo[setting.key] = parsese(elMap[i18nKey], setting.parser, setting.format);
+    }
+  });
+  return playerInfo;
 };

@@ -10,7 +10,7 @@
 import React from '../utils/react-like.js';
 import * as utils from '../utils/common.js';
 import * as request from '../utils/request.js';
-import htmlParser from '../helpers/htmlParser.js';
+import Player from '../models/player.js';
 
 const getTrain = (cost, i) => {
   //blocking, dueling, passing, scoring, tactics
@@ -69,7 +69,7 @@ const appendExtraInfo = () => {
     if (playerUrl) {
       request.get(playerUrl).then(doc => {
         const el = doc.querySelector('div.center'),
-              playerInfo = htmlParser(el);
+              playerInfo = new Player(el);
         appendPlayerInfo(tr, playerInfo);
         appendTrainInfo(tr);
       });
