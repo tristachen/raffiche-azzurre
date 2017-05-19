@@ -9,7 +9,6 @@
 
 import React from '../utils/react-like.js';
 import * as utils from '../utils/common.js';
-import * as request from '../utils/request.js';
 import Player from '../models/player.js';
 
 const getTrain = (cost, i) => {
@@ -37,7 +36,7 @@ const appendExtraInfo = () => {
   const appendPlayerInfo = (elRow, info) => {
     elRow.querySelector('td:first-child div').hidden = true;
     elRow.querySelector('td:first-child').appendChild(
-      <div>{'★ {0} | {1} | {2}'.format(info.value, info.talent, info.age)}</div>
+      <div>{'★ {0} | {1} | {2}'.format(info.value, info.talent, info.age_string)}</div>
     );
     elRow.querySelector('td:first-child').appendChild(
       <div>{'◆ [{0}]'.format(info.special_attributes)}</div>
@@ -67,10 +66,9 @@ const appendExtraInfo = () => {
     const elPlayerName = tr.querySelector('td:first-child a:nth-child(2)'),
           playerUrl = elPlayerName && elPlayerName.href;
     if (playerUrl) {
-      request.get(playerUrl).then(doc => {
-        const el = doc.querySelector('div.center'),
-              playerInfo = new Player(el);
-        appendPlayerInfo(tr, playerInfo);
+      const player = new Player({ url: playerUrl });
+      player.fetch().then(() => {
+        appendPlayerInfo(tr, player);
         appendTrainInfo(tr);
       });
     }

@@ -28,10 +28,10 @@ const appendParadeInfo = () => {
   const REMOVE_BEHIND_CHILD_NUM = 7;
   const keys = [
     'talent', 'endurance', 'tactics',
-    'main_fixed_feature', 'main_trainable_feature',
+    'bonus_fixed_feature', 'main_feature',
     'position_exp', 'total_exp2', 'special_attributes', 'market_value',
     // 'name',
-    'player_score', 'training_morale'
+    'player_score2', 'training_morale'
   ];
   const elHeadRow = document.querySelector('.horizontal_table thead tr'),
         elBodyRow = document.querySelectorAll('.horizontal_table tbody tr'),
@@ -49,20 +49,19 @@ const appendParadeInfo = () => {
   //body
   elBodyRow.forEach(el => {
     const playerUrl = el.querySelector('td:first-child a').href;
-    request.get(playerUrl).then(doc => {
-      const player = new Player(doc.querySelector('.center'));
-
+    const player = new Player({ url: playerUrl });
+    player.fetch().then(() => {
       for (let i = 0; i < REMOVE_BEHIND_CHILD_NUM; i++) {
         el.removeChild(el.lastChild);
       }
       keys.forEach(key => el.appendChild(<td>{player[key]}</td>));
-      el.children[2].textContent = player.age;
+      el.children[2].textContent = player.age_string;
 
       players.push(player);
       if (players.length === playerNum) {
         appendStatisticalRow(players);
       }
-    });
+    })
   });
 };
 
@@ -110,18 +109,18 @@ const appendStatisticalRow = players => {
 
   //calc total value and get top value
   players.forEach((player, i) => {
-    totalAge                  += parseFloat(player.age);
+    totalAge                  += parseFloat(player.age_number);
     totalValue                += parseFloat(player.value);
     totalTalent               += parseFloat(player.talent);
     totalEndurance            += parseFloat(player.endurance);
     totalTactics              += parseFloat(player.tactics);
-    totalMainFixedFeature     += parseFloat(player.main_fixed_feature);
-    totalMainTrainableFeature += parseFloat(player.main_trainable_feature);
+    totalMainFixedFeature     += parseFloat(player.bonus_fixed_feature);
+    totalMainTrainableFeature += parseFloat(player.main_feature);
     totalPositionExp          += parseFloat(player.position_exp);
-    totalTotalExp             += parseFloat(player.total_exp);
+    totalTotalExp             += parseFloat(player.total_exp2);
     totalSpecialAttributes    += parseFloat(player.special_attributes);
     totalMarketValue          += parseFloat(player.market_value);
-    totalPlayerScore          += parseFloat(player.player_score);
+    totalPlayerScore          += parseFloat(player.player_score2);
     totalTrainingMorale       += parseFloat(player.training_morale);
 
     if (i === TOP_NUM - 1) {

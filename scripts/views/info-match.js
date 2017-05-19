@@ -29,8 +29,8 @@ const addTooltip = () => {
         return;
       }
 
-      request.get(playerUrl).then(doc => {
-        const player = new Player(doc.querySelector('div.center'));
+      const player = new Player({ url: playerUrl });
+      player.fetch().then(() => {
         elTooltips = (
           <div class='tooltips--player'>
             <div class='tooltips__one-col'>
@@ -90,12 +90,12 @@ const addTooltip = () => {
               <span class='tooltips__value'>{player.position_exp}</span>
             </div>
             <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_player_score')}</span>
-              <span class='tooltips__value'>{player.player_score}</span>
+              <span class='tooltips__label'>{chrome.i18n.getMessage('player_player_score2')}</span>
+              <span class='tooltips__value'>{player.player_score2}</span>
             </div>
             <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_total_exp')}</span>
-              <span class='tooltips__value'>{player.total_exp}</span>
+              <span class='tooltips__label'>{chrome.i18n.getMessage('player_total_exp2')}</span>
+              <span class='tooltips__value'>{player.total_exp2}</span>
             </div>
           </div>
         );

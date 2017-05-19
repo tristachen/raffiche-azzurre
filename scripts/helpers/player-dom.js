@@ -11,39 +11,39 @@ const parserSettings = [
   { key: 'language' },
   { key: 'age' },
 
-  { key: 'weekly_wage', format: 'money' },
-  { key: 'yearly_wage', format: 'money' },
+  { key: 'weekly_wage', format: 'number' },
+  { key: 'yearly_wage', format: 'number' },
 
   { key: 'position' },
   { key: 'value' }, //TODO: 有可能為固定值, 也可能有上下限: 10-20 這樣的格式
-  { key: 'experience' },
+  { key: 'experience', format: 'number' },
   { key: 'special_attributes', parser: 'multiline' },  //TODO: special-parser
-  { key: 'market_value', format: 'money' },
+  { key: 'market_value', format: 'number' },
   { key: 'fitness', parser: 'first-attr-title' },
   { key: 'team', parser: 'last-text' },
 
-  { key: 'talent' },
-  { key: 'scoring' },
-  { key: 'attack' },
+  { key: 'talent', format: 'number' },
+  { key: 'scoring', format: 'number' },
+  { key: 'attack', format: 'number' },
 
-  { key: 'endurance' },
-  { key: 'passing' },
-  { key: 'midfield' },
+  { key: 'endurance', format: 'number' },
+  { key: 'passing', format: 'number' },
+  { key: 'midfield', format: 'number' },
 
-  { key: 'power' },
-  { key: 'dueling' },
-  { key: 'defense' },
+  { key: 'power', format: 'number' },
+  { key: 'dueling', format: 'number' },
+  { key: 'defense', format: 'number' },
 
-  { key: 'speed' },
-  { key: 'blocking' },
-  { key: 'goalkeeping' },
+  { key: 'speed', format: 'number' },
+  { key: 'blocking', format: 'number' },
+  { key: 'goalkeeping', format: 'number' },
 
-  { key: 'tactics' },
+  { key: 'tactics', format: 'number' },
   { key: 'flank' },
 
-  { key: 'number_of_fixed_attribute_trainings' },
-  { key: 'next_fixed_training_cost' },
-  { key: 'training_morale' }
+  { key: 'number_of_fixed_attribute_trainings', format: 'number' },
+  { key: 'next_fixed_training_cost', format: 'percent' },
+  { key: 'training_morale', format: 'morale' }
 ];
 
 const getFirstText = el => {
@@ -68,8 +68,8 @@ const getMultiline = el => {
   return [].map.call(el.querySelectorAll('span'), el => el.textContent);
 };
 
-const formatToMoney = str => {
-  return str.replace(/\D+/g, '');
+const formatToNumber = str => {
+  return parseFloat(str.replace(/[^\d\.]+/g, ''));
 };
 
 const generateElementMap = el => {
@@ -97,7 +97,10 @@ const parsese = (el, parser, format) => {
     default                : value = getFirstText(el); break;
   }
   switch (format) {
-    case 'money': value = formatToMoney(value); break;
+    case 'money'  : value = formatToNumber(value); break;
+    case 'number' : value = formatToNumber(value); break;
+    case 'percent': value = parseFloat(value) / 100.0; break;
+    case 'morale' : value = value.match(/\((.*)\)/)[1]; break;
     default: /* do nothing */ break;
   }
   return value;

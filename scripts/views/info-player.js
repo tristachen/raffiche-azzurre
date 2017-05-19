@@ -12,8 +12,9 @@ let player;
 const appendExtraInfo = () => {
   const id = location.href.match(/.*\/player-(.*)/)[1];
   const el = document.querySelector('.center');
-  player = new Player(el);
-  ['total_exp2', 'player_score2', 'expscore1'].forEach(key => {
+  player = new Player();
+  player.parse(el);
+  ['training_grade', 'property_score', 'score1', 'score2'].forEach(key => {
     const name = chrome.i18n.getMessage('player_' + key),
           value = player[key];
     const jsx = (
@@ -38,7 +39,7 @@ const appendExtraInfo = () => {
     localStorage.setItem('player_' + id + '_note', note);
   };
 
-  if (player.age <= 30) {
+  if (player.age_years <= 30) {
     getTrain(player);
   }
 };
@@ -66,26 +67,25 @@ const getTrain = player => {
 };
 
 const appendGrowingUpInfo = (player, train) => {
-  const trainLv = train[chrome.i18n.getMessage('trainer_lv')],
-        trainAddition = train[chrome.i18n.getMessage('trainer_bouns')],
-        trainMultiple = trainLv * 12,
-        skill = player.special_attributes.indexOf(chrome.i18n.getMessage('player_special_attributes_hardworking'));
+  const trainer_lv = train[chrome.i18n.getMessage('trainer_lv')],
+        trainer_bonus = train[chrome.i18n.getMessage('trainer_bonus')] || 0,
+        trainer_multiple = trainer_lv * 12,
+        skill = player.special_attributes.indexOf(chrome.i18n.getMessage('special_attributes_hardworking'));
 
   const tbody = (<tbody></tbody>);
-  const age = parseInt(player.age, 10) + 1;
+  const age = player.age_years + 1;
   for (let i = age; i <= 30; i++) {
-    const expc = player.futurecExp(i, player, player.age_array, player.total_exp, player.talent, trainMultiple, trainAddition, skill, player.main_trainable_feature, player.age_percent, player.position_skill_name),
-          exp = player.futureExp(i, player, player.age_array, player.total_exp, player.talent, trainMultiple, trainAddition, skill),
-          exp1 = player.getExpScore(exp, i),
-          exp2 = player.getExpScore2(exp, i);
-
+    const total_exp = player.getFutureTotalExp(i, trainer_multiple, trainer_bonus),
+          main_feature = player.getFutureMainFeature(i, total_exp),
+          exp_score1 = player.getExpScore(1, { total_exp: total_exp, age_number: i }),
+          exp_score2 = player.getExpScore(2, { total_exp: total_exp, age_number: i });
     tbody.appendChild(
       <tr>
         <td>{i}</td>
-        <td>{expc}</td>
-        <td>{exp}</td>
-        <td>{exp1}</td>
-        <td>{exp2}</td>
+        <td>{main_feature}</td>
+        <td>{total_exp}</td>
+        <td>{exp_score1}</td>
+        <td>{exp_score2}</td>
       </tr>
     );
   }
@@ -97,14 +97,14 @@ const appendGrowingUpInfo = (player, train) => {
           <th colspan='5'>{chrome.i18n.getMessage('label_player_growing_up')}</th>
         </tr>
         <tr>
-          <th colspan='5'>{chrome.i18n.getMessage('msg_player_growing_up').format(trainLv, trainMultiple, trainAddition, skill > -1 ? chrome.i18n.getMessage('player_special_attributes_hardworking') : '')}</th>
+          <th colspan='5'>{chrome.i18n.getMessage('msg_player_growing_up').format(trainer_lv, trainer_multiple, trainer_bonus, skill > -1 ? chrome.i18n.getMessage('special_attributes_hardworking') : '')}</th>
         </tr>
         <tr>
           <td>{chrome.i18n.getMessage('player_age')}</td>
-          <td>{chrome.i18n.getMessage('player_main_fixed_feature')}</td>
-          <td>{chrome.i18n.getMessage('player_total_exp')}</td>
-          <td>{chrome.i18n.getMessage('player_exp1')}</td>
-          <td>{chrome.i18n.getMessage('player_exp2')}</td>
+          <td>{chrome.i18n.getMessage('player_bonus_fixed_feature')}</td>
+          <td>{chrome.i18n.getMessage('player_total_exp2')}</td>
+          <td>{chrome.i18n.getMessage('player_exp_score1')}</td>
+          <td>{chrome.i18n.getMessage('player_exp_score2')}</td>
         </tr>
       </thead>
       {tbody}

@@ -3,7 +3,6 @@
  */
 
 import React from '../utils/react-like.js';
-import * as request from '../utils/request.js';
 import Player from '../models/player.js';
 
 const appendExtraInfo = (keys, insertTo) => {
@@ -27,9 +26,8 @@ const appendExtraInfo = (keys, insertTo) => {
     const elPlayerName = tr.querySelector('td:first-child a:nth-child(2)'),
           playerUrl = elPlayerName && elPlayerName.href;
     if (playerUrl) {
-      request.get(playerUrl).then(doc => {
-        const el = doc.querySelector('div.center'),
-              player = new Player(el);
+      const player = new Player({ url: playerUrl });
+      player.fetch().then(() => {
         for (let i = keys.length - 1; i > -1; i--) {
           const key = keys[i],
                 td = <td>{player[key]}</td>;

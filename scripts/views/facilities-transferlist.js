@@ -25,9 +25,9 @@ const PROP_KEYS = [
 
   'special_attributes',
 
-  'main_trainable_feature',
+  'main_feature',
   'total_exp2',
-  'player_score',
+  'player_score2',
   'premium_rate',
   'born'
 ];
@@ -85,9 +85,8 @@ const appendExtraInfo = () => {
     const playerUrl = el.querySelector('td:first-child a:nth-child(2)').href,
           employmentUrl = playerUrl + '/employment';
 
-
-    request.get(playerUrl).then(doc => {
-      const player = new Player(doc.querySelector('.center'));
+    const player = new Player({ url: playerUrl });
+    player.fetch().then(() => {
       el.children[3].textContent = player.age_string;
 
       const money = el.children[4].textContent,
@@ -108,7 +107,6 @@ const appendExtraInfo = () => {
         $('.horizontal_table').trigger('update');
       });
     });
-
   });
   $('.horizontal_table').tablesorter();
 };
