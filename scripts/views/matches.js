@@ -19,7 +19,7 @@ const REFRESH_MINS = 5,
 const appendAutoWatchMatchElement = () => {
   const STORAGE_KEY = 'auto-watch-match',
         elContainer = document.querySelector('#content h2'),
-        elMatchLinks = document.querySelectorAll('a.match');
+        elMatchLinks = document.querySelectorAll('a[href *=match-]:not([href $=fixture])');
   let elMatchToggle, timer;
 
   const renderWatchToggleElement = isWatchEnabled => {
@@ -70,4 +70,7 @@ const appendAutoWatchMatchElement = () => {
   }
 };
 
-appendAutoWatchMatchElement();
+//don't apply on info/player-*/matches
+if (location.href.search('player') < 0) {
+  appendAutoWatchMatchElement();
+}
