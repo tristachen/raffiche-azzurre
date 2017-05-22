@@ -114,7 +114,7 @@ const appendGrowingUpInfo = (player, train) => {
   insertTo.parentElement.insertBefore(table, insertTo);
 };
 
-//don't apply on info/player-*/transfer
-if (location.href.search('transfer') < 0) {
+//only apply on info/player-*
+if (location.href.match(/player-\d*$/)) {
   appendExtraInfo();
 }
