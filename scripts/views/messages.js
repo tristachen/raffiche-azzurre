@@ -1,9 +1,9 @@
 /*
- * - 自動點選回購頁面 [autoBuyTickets]
+ * - 自動點選回購連結 [autoClickReturnLink]
  */
 
-var autoBuyTickets = function autoBuyTickets() {
+const autoClickReturnLink = () => {
   document.querySelector('img[src *=buytickets').click();
 };
 
-autoBuyTickets();
+autoClickReturnLink();
