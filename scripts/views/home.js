@@ -36,7 +36,9 @@ const appendHyperlink = () => {
           i18nKey = 'label_' + key;
     elLinks.appendChild(<a href={url}>{chrome.i18n.getMessage(i18nKey)} </a>);
   });
-  elContainer.insertBefore(elLinks, elContainer.firstChild);
+  if (elContainer) {
+    elContainer.insertBefore(elLinks, elContainer.firstChild);
+  }
 };
 
 const appendAutoClickAdElement = () => {
