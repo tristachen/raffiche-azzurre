@@ -55,7 +55,7 @@ const addTooltip = () => {
             </div>
             <div class='tooltips__one-col'>
               <span class='tooltips__label'>{chrome.i18n.getMessage('player_market_value')}</span>
-              <span class='tooltips__value'>{player.market_value}</span>
+              <span class='tooltips__value'>{player.format('market_value')}</span>
             </div>
             <div class='tooltips__two-col'>
               <span class='tooltips__label'>{chrome.i18n.getMessage('player_talent')}</span>
@@ -87,15 +87,15 @@ const addTooltip = () => {
             </div>
             <div class='tooltips__one-col'>
               <span class='tooltips__label'>{chrome.i18n.getMessage('player_position_exp')}</span>
-              <span class='tooltips__value'>{player.position_exp}</span>
+              <span class='tooltips__value'>{player.format('position_exp')}</span>
             </div>
             <div class='tooltips__one-col'>
               <span class='tooltips__label'>{chrome.i18n.getMessage('player_player_score2')}</span>
-              <span class='tooltips__value'>{player.player_score2}</span>
+              <span class='tooltips__value'>{player.format('player_score2')}</span>
             </div>
             <div class='tooltips__one-col'>
               <span class='tooltips__label'>{chrome.i18n.getMessage('player_total_exp2')}</span>
-              <span class='tooltips__value'>{player.total_exp2}</span>
+              <span class='tooltips__value'>{player.format('total_exp2')}</span>
             </div>
           </div>
         );
@@ -116,9 +116,6 @@ const addTooltip = () => {
       elTooltips.outerHTML = '';
       elTooltips = null;
     };
-
-    // el.addEventListener('mouseleave', e => {
-    // });
   });
 };
 

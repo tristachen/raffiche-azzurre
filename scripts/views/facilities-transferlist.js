@@ -95,15 +95,14 @@ const appendExtraInfo = () => {
             mm = moneyStr + moneyInt;
 
       player.bid_price = el.children[4].textContent.replace(/\D/ig, '');
-      player.premium_rate = Math.round(player.bid_price * 100 / player.market_value) + '%';
+      player.premium_rate = player.bid_price / player.market_value;
       el.children[4].textContent = mm;
-      player.total_exp2 = player.total_exp2.format(0);
 
       request.get(employmentUrl).then(doc => {
         const note = doc.querySelector('.footnote').textContent;
         player.born = ((note.match(/\d* 青訓中心/g) || note.match(/用 \d*/g) || [])[0]).replace(/\D/ig, '');
 
-        keys.forEach(key => el.appendChild(<td>{player[key]}</td>));
+        keys.forEach(key => el.appendChild(<td>{player.format(key)}</td>));
         $('.horizontal_table').trigger('update');
       });
     });

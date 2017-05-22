@@ -30,7 +30,7 @@ const appendExtraInfo = (keys, insertTo) => {
       player.fetch().then(() => {
         for (let i = keys.length - 1; i > -1; i--) {
           const key = keys[i],
-                td = <td>{player[key]}</td>;
+                td = <td>{player.format(key)}</td>;
           tr.insertBefore(td, tr.children[insertTo]);
         }
       });

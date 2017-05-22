@@ -351,8 +351,8 @@ export default class Player {
     this.player_score2  = this.getPlayerScore(2);
     this.exp_score1     = this.getExpScore(1);
     this.exp_score2     = this.getExpScore(2);
-    this.score1         = chrome.i18n.getMessage('player_score1_format').format(this.total_exp1, this.player_score1, this.exp_score1);
-    this.score2         = chrome.i18n.getMessage('player_score2_format').format(this.total_exp2, this.player_score2, this.exp_score2);
+    this.score1         = chrome.i18n.getMessage('player_score1_format').format(this.format('total_exp1'), this.format('player_score1'), this.format('exp_score1'));
+    this.score2         = chrome.i18n.getMessage('player_score2_format').format(this.format('total_exp2'), this.format('player_score2'), this.format('exp_score2'));
     this.training_grade = this.getTrainingGrade();
 
     switch (this.position) {
@@ -369,5 +369,63 @@ export default class Player {
         this.assignPositionFeature('goalkeeping', 'speed', 'blocking');
         break;
     }
+  }
+
+  format(key) {
+    let result = this[key] || '';
+    switch(key) {
+      case 'age_number':
+      case 'bonus_fixed_feature':
+      case 'talent':
+      case 'endurance':
+      case 'power':
+      case 'speed':
+      case 'main_feature':
+      case 'scoring':
+      case 'passing':
+      case 'dueling':
+      case 'blocking':
+      case 'tactics':
+        result = new Intl.NumberFormat(navigator.language, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }).format(result);
+        break;
+
+      case 'age_factor':
+      case 'premium_rate':
+        result = new Intl.NumberFormat(navigator.language, {
+          style: 'percent'
+        }).format(result);
+        break;
+
+      case 'position_exp':
+      case 'attack':
+      case 'midfield':
+      case 'defense':
+      case 'goalkeeping':
+      case 'experience':
+      case 'property_score':
+      case 'total_exp1':
+      case 'total_exp2':
+      case 'player_score1':
+      case 'player_score2':
+      case 'exp_score1':
+      case 'exp_score2':
+        result = new Intl.NumberFormat(navigator.language).format(result);
+        break;
+
+      case 'weekly_wage':
+      case 'yearly_wage':
+      case 'market_value':
+      case 'bid_price':
+        result = '¥ ' + new Intl.NumberFormat(navigator.language).format(result);
+        break;
+
+      default:
+        result = this[key];
+        break;
+    }
+    return result;
   }
 }

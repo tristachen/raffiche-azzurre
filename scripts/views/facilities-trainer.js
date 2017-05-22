@@ -36,7 +36,7 @@ const appendExtraInfo = () => {
   const appendPlayerInfo = (elRow, info) => {
     elRow.querySelector('td:first-child div').hidden = true;
     elRow.querySelector('td:first-child').appendChild(
-      <div>{'★ {0} | {1} | {2}'.format(info.value, info.talent, info.age_string)}</div>
+      <div>{'★ {0} | {1} | {2}'.format(info.format('value'), info.format('talent'), info.age_string)}</div>
     );
     elRow.querySelector('td:first-child').appendChild(
       <div>{'◆ [{0}]'.format(info.special_attributes)}</div>

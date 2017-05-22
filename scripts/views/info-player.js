@@ -16,7 +16,7 @@ const appendExtraInfo = () => {
   player.parse(el);
   ['training_grade', 'property_score', 'score1', 'score2'].forEach(key => {
     const name = chrome.i18n.getMessage('player_' + key),
-          value = player[key];
+          value = player.format(key);
     const jsx = (
       <tr>
         <th>{name}</th>
@@ -82,10 +82,10 @@ const appendGrowingUpInfo = (player, train) => {
     tbody.appendChild(
       <tr>
         <td>{i}</td>
-        <td>{main_feature}</td>
-        <td>{total_exp}</td>
-        <td>{exp_score1}</td>
-        <td>{exp_score2}</td>
+        <td>{new Intl.NumberFormat(navigator.language).format(main_feature)}</td>
+        <td>{new Intl.NumberFormat(navigator.language).format(total_exp)}</td>
+        <td>{new Intl.NumberFormat(navigator.language).format(exp_score1)}</td>
+        <td>{new Intl.NumberFormat(navigator.language).format(exp_score2)}</td>
       </tr>
     );
   }

@@ -54,14 +54,14 @@ const appendParadeInfo = () => {
       for (let i = 0; i < REMOVE_BEHIND_CHILD_NUM; i++) {
         el.removeChild(el.lastChild);
       }
-      keys.forEach(key => el.appendChild(<td>{player[key]}</td>));
+      keys.forEach(key => el.appendChild(<td>{player.format(key)}</td>));
       el.children[2].textContent = player.age_string;
 
       players.push(player);
       if (players.length === playerNum) {
         appendStatisticalRow(players);
       }
-    })
+    });
   });
 };
 
