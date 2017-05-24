@@ -36,7 +36,7 @@ const appendHyperlink = () => {
   linkKeys.forEach(key => {
     const url = prefixUrl + HYPERLINKS_MAP[key],
           i18nKey = 'label_' + key;
-    elLinks.appendChild(<a href={url}>{chrome.i18n.getMessage(i18nKey)}</a>);
+    elLinks.appendChild(<a class='link' href={url}>{chrome.i18n.getMessage(i18nKey)}</a>);
   });
   elContainer.insertBefore(elLinks, elContainer.firstChild);
 };

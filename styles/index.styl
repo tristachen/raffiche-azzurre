@@ -1,50 +1,62 @@
 .link {
-  margin 0 20px;
+  font-weight bold
+
+  &:not(:first-child) {
+    margin-left 10px
+  }
+  &:not(:last-child):after {
+    content ''
+    margin-left 10px
+    border 1px solid black
+  }
+  &:hover {
+    color #6ba301
+  }
 }
 
 .extra-info {
-  color: blue;
+  color blue
 }
 
 .extra-info-height {
-  color: #990000;
-  font-weight: bold;
+  color #990000
+  font-weight bold
 }
 
 .one-col{
-  width: 100% !important;
-  box-sizing: border-box !important;
-  padding: 10px !important;
+  width 100% !important
+  box-sizing border-box !important
+  padding 10px !important
 }
 
 
 .tooltips--player {
-  position: fixed;
-  background: rgba(255, 255, 255, .9);
-  width: 20rem;
-  padding: 1rem;
-  box-sizing: content-box;
-  z-index: 99999;
+  position fixed
+  background rgba(255, 255, 255, .9)
+  width 20rem
+  padding 1rem
+  box-sizing content-box
+  z-index 99999
 }
 
 .tooltips__label {
-  margin-right: .5rem;
-  display: inline-block;
-  word-wrap: break-word;
-  white-space: pre-wrap;
-  vertical-align: middle;
+  margin-right .5rem
+  display inline-block
+  word-wrap break-word
+  white-space pre-wrap
+  vertical-align middle
 }
 
 .tooltips__one-col,
 .tooltips__two-col {
-  margin: .5rem 0;
+  margin .5rem 0
 }
 .tooltips__two-col {
   .tooltips__label {
-    width: 2rem;
+    width 2rem
   }
   .tooltips__value {
-    display: inline-block;
-    width: 6rem;
+    display inline-block
+    width 6rem
   }
 }
