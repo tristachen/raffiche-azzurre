@@ -9,8 +9,7 @@ import * as request from '../utils/request.js';
 import Player from '../models/player.js';
 
 const appendExtraInfo = () => {
-  const id = location.href.match(/.*\/player-(.*)/)[1],
-        el = document.querySelector('.center');
+  const el = document.querySelector('.center');
   let player = new Player();
   player.parse(el);
   ['training_grade', 'property_score', 'score1', 'score2'].forEach(key => {
@@ -28,14 +27,14 @@ const appendExtraInfo = () => {
     <tr>
       <th>{chrome.i18n.getMessage('player_note')}</th>
       <td>
-        <input id='inputPlayerNote' value={localStorage.getItem('player_' + id + '_note')}/>
+        <input id='inputPlayerNote' value={localStorage.getItem(player.id + '_note')}/>
         <button id='btnPlayerNote'>{chrome.i18n.getMessage('label_ok')}</button>
       </td>
     </tr>
   );
   document.querySelector('#btnPlayerNote').onclick = e => {
     const note = document.querySelector('#inputPlayerNote').value;
-    localStorage.setItem('player_' + id + '_note', note);
+    localStorage.setItem(player.id + '_note', note);
   };
 
   if (player.age_years <= 30) {
@@ -54,7 +53,6 @@ const getTrainerInfo = player => {
       const key = th.textContent,
             td = th.nextElementSibling;
       if (key && td) {
-        //TODO: get current format
         const value = td.textContent.match(/\d+/g);
         elMap[key] = value && value[0] ? value[0] : td.textContent;
       } else {
