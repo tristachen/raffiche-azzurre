@@ -1,0 +1,63 @@
+{
+  "manifest_version": 2,
+  "name": "Raffiche Azzurre",
+  "version": "1.0.0",
+  "default_locale": "zh_TW",
+  "description": "Extension for rockingsoccer",
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "browser_action": {
+    "default_icon": "icon.png"
+  },
+  "permissions": ["https://rockingsoccer.com/*"],
+  "content_scripts": [{
+    "matches": ["https://rockingsoccer.com/*"],
+    "js": ["vendors/jquery-3.2.1.min.js", "vendors/jquery.tablesorter.min.js"],
+    "css": ["assets/content.css"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/football"],
+    "js": ["assets/home.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/info/player-*"],
+    "js": ["assets/info-player.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/info/team-*"],
+    "js": ["assets/info-team.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/info/team-*/players?*&parade"],
+    "js": ["assets/info-team-parade.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/info/team-*/challenge"],
+    "js": ["assets/info-team-challenge.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/info/match-*"],
+    "js": ["assets/info-match.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/facilities/trainer/*"],
+    "js": ["assets/facilities-trainer.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/facilities/youth/*"],
+    "js": ["assets/facilities-youth.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/facilities/scout/players"],
+    "js": ["assets/facilities-players.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/facilities/scout/transferlist"],
+    "js": ["assets/facilities-transferlist.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/league-*/*/results/*", "https://rockingsoccer.com/*/*/league-*/*/*/results"],
+    "js": ["assets/leauge-results.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/friendlies/friendlies", "https://rockingsoccer.com/*/*/friendlies/friendlies/challenge"],
+    "js": ["assets/friendlies.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/matches", "https://rockingsoccer.com/*/*/friendlies"],
+    "js": ["assets/matches.js"]
+  }, {
+    "matches": ["https://rockingsoccer.com/*/*/messages/home/home-*"],
+    "js": ["assets/messages.js"]
+  }]
+}

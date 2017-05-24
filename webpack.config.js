@@ -20,7 +20,7 @@ const config = {
   base: {
     entry: entry,
     output: {
-      path: path.resolve(__dirname, 'dist/assets'),
+      path: path.resolve(__dirname, 'ra/assets'),
       filename: '[name].js'
     },
     module: {
@@ -77,7 +77,7 @@ const config = {
       }]
     },
     devServer: {
-      contentBase: path.join(__dirname, 'dist'),
+      contentBase: path.join(__dirname, 'ra'),
       compress: true,
       port: 9000
     },
