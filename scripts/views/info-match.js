@@ -21,39 +21,50 @@ const appendSpoilerElement = () => {
 };
 
 const appendPlayerTooltip = () => {
-  const linkPlayers = document.querySelectorAll('a[href *=player-]:not([href $=transfer])');
+  const DATA_LAYOUT_SETTINGS = [
+    { cols: 'one', key: 'name' },
+    { cols: 'two', key: 'age_string' },
+    { cols: 'one', key: 'position' },
+    { cols: 'one', key: 'special_attributes' },
+    { cols: 'one', key: 'value' },
+    { cols: 'one', key: 'market_value' },
+    { cols: 'two', key: 'talent' },
+    { cols: 'two', key: 'scoring' },
+    { cols: 'two', key: 'endurance' },
+    { cols: 'two', key: 'passing' },
+    { cols: 'two', key: 'power' },
+    { cols: 'two', key: 'dueling' },
+    { cols: 'two', key: 'speed' },
+    { cols: 'two', key: 'blocking' },
+    { cols: 'two', key: 'tactics' },
+    { cols: 'one', key: 'position_exp' },
+    { cols: 'one', key: 'total_exp2' },
+    { cols: 'one', key: 'player_score2' }
+  ];
+
+  const linkPlayers = document.querySelectorAll('a[href *=player-]:not([href $=transfer])'),
+        players = {};
+  let targetId, timer;
+
   linkPlayers.forEach(el => {
     const playerUrl = el.href;
-    let elTooltips;
+    let player = new Player({ url: playerUrl });
+
+    const unembedElement = () => {
+      const elTooltips = document.querySelector('.tooltips--player');
+      if (elTooltips) {
+        elTooltips.outerHTML = '';
+      }
+      timer = null;
+    };
 
     el.addEventListener('mouseover', e => {
-      if (elTooltips) {
-        return;
-      }
+      const append = player => {
+        if (targetId !== player.id) {
+          return;
+        }
 
-      const player = new Player({ url: playerUrl });
-      const DATA_LAYOUT_SETTINGS = [
-        { cols: 'one', key: 'name' },
-        { cols: 'two', key: 'age_string' },
-        { cols: 'one', key: 'position' },
-        { cols: 'one', key: 'special_attributes' },
-        { cols: 'one', key: 'value' },
-        { cols: 'one', key: 'market_value' },
-        { cols: 'two', key: 'talent' },
-        { cols: 'two', key: 'scoring' },
-        { cols: 'two', key: 'endurance' },
-        { cols: 'two', key: 'passing' },
-        { cols: 'two', key: 'power' },
-        { cols: 'two', key: 'dueling' },
-        { cols: 'two', key: 'speed' },
-        { cols: 'two', key: 'blocking' },
-        { cols: 'two', key: 'tactics' },
-        { cols: 'one', key: 'position_exp' },
-        { cols: 'one', key: 'total_exp2' },
-        { cols: 'one', key: 'player_score2' }
-      ];
-      player.fetch().then(() => {
-        elTooltips = (
+        const elTooltips = (
           <div class='tooltips--player'></div>
         );
 
@@ -87,21 +98,31 @@ const appendPlayerTooltip = () => {
         }
 
         el.parentElement.parentElement.appendChild(elTooltips);
-        elTooltips.style.left = e.clientX + 'px';
+        elTooltips.style.left = (e.clientX + 10) + 'px';
         elTooltips.style.top = (e.clientY - 100) + 'px';
 
-        setTimeout(unembedElement, 2000);
-      });
+        timer = setTimeout(unembedElement, 2000);
+      };
+
+      targetId = player.id;
+      if (players[player.id]) {
+        player = players[player.id];
+        append(player);
+      } else {
+        player.fetch().then(() => {
+          players[player.id] = player;
+          append(player);
+        });
+      }
     });
 
-    const unembedElement = () => {
-      if (!elTooltips) {
-        return;
+    el.addEventListener('mouseout', e => {
+      if (timer) {
+        clearTimeout(timer);
+        unembedElement();
       }
-
-      elTooltips.outerHTML = '';
-      elTooltips = null;
-    };
+      targetId = '';
+    });
   });
 };
 
