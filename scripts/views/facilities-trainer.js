@@ -1,10 +1,5 @@
 /*
- * - 加上額外資訊 [appendExtraInfo]
- *   - 名稱欄
- *     - ★ 能力值 | 天賦 | 年齡
- *     - ◆ 特殊屬性
- *   - 每個能力欄
- *     - + 0.xxx 星, 最大值要特別 highlight
+ * - 增加額外資訊 [appendExtraInfo]
  */
 
 import React from '../utils/react-like.js';
@@ -33,13 +28,13 @@ const getTrain = (cost, i) => {
 const appendExtraInfo = () => {
   const elBodyRow = document.querySelectorAll('.horizontal_table tbody tr');
 
-  const appendPlayerInfo = (elRow, info) => {
+  const appendPlayerInfo = (elRow, player) => {
     elRow.querySelector('td:first-child div').hidden = true;
     elRow.querySelector('td:first-child').appendChild(
-      <div>{'★ {0} | {1} | {2}'.format(info.format('value'), info.format('talent'), info.age_string)}</div>
+      <div>{'★ {0} | {1} | {2}'.format(player.format('value'), player.format('talent'), player.format('age_string'))}</div>
     );
     elRow.querySelector('td:first-child').appendChild(
-      <div>{'◆ [{0}]'.format(info.special_attributes)}</div>
+      <div>{'◆ [{0}]'.format(player.format('special_attributes'))}</div>
     );
   };
 
@@ -51,15 +46,14 @@ const appendExtraInfo = () => {
             train = getTrain(cost, i);
       costs[costs.length] = train;
       el.parentElement.parentElement.appendChild(
-        <div style='color: blue'>{'+ {0} 星'.format(train)}</div>
+        <div class='extra-info'>{chrome.i18n.getMessage('label_train').format(train)}</div>
       );
     });
 
     //highlight max train
     const iMax = costs.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0),
           elMaxCost = elCosts[iMax].parentElement.parentElement.lastChild;
-    elMaxCost.style.color = '#990000';
-    elMaxCost.style.fontWeight = 'bold';
+    elMaxCost.className = 'extra-info-height';
   };
 
   elBodyRow.forEach(tr => {

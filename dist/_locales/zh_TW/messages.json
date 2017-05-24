@@ -18,6 +18,10 @@
   "label_all"              : { "message": "全部" },
   "label_player_growing_up": { "message": "球員經驗成長預估" },
   "label_multi_challenge"  : { "message": "挑戰多次" },
+  "label_ok"               : { "message": "確定" },
+  "label_deadline"         : { "message": "期限" },
+  "label_train"            : { "message": "+ {0} 星"},
+  "label_credit"           : { "message": "信用點"},
 
   "position_attack"     : { "message": "前鋒" },
   "position_midfield"   : { "message": "中場" },

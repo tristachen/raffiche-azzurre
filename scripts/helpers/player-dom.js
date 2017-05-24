@@ -15,10 +15,11 @@ const parserSettings = [
   { key: 'yearly_wage', format: 'number' },
 
   { key: 'position' },
-  { key: 'value' }, //TODO: 有可能為固定值, 也可能有上下限: 10-20 這樣的格式
+  { key: 'value' },
   { key: 'experience', format: 'number' },
-  { key: 'special_attributes', parser: 'multiline' },  //TODO: special-parser
+  { key: 'special_attributes', parser: 'multiline' },
   { key: 'market_value', format: 'number' },
+  { key: 'bid_price', format: 'number' },
   { key: 'fitness', parser: 'first-attr-title' },
   { key: 'team', parser: 'last-text' },
 
@@ -88,8 +89,11 @@ const generateElementMap = el => {
   return elMap;
 };
 
-const parsese = (el, parser, format) => {
+export const parseDOM = (el, key) => {
   let value = '';
+  const setting = parserSettings.find(s => s.key === key),
+        parser = setting.parser,
+        format = setting.format;
   switch (parser) {
     case 'first-attr-title': value = getFirstTitleAttribute(el); break;
     case 'last-text'       : value = getLastText(el); break;
@@ -115,7 +119,7 @@ export const parse = el => {
     const key = 'player_' + setting.key,
           i18nKey = chrome.i18n.getMessage(key);
     if (elMap[i18nKey]) {
-      playerInfo[setting.key] = parsese(elMap[i18nKey], setting.parser, setting.format);
+      playerInfo[setting.key] = parseDOM(elMap[i18nKey], setting.key);
     }
   });
   return playerInfo;

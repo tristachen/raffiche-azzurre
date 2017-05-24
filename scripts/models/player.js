@@ -77,9 +77,22 @@ export default class Player {
   }
 
   fetch() {
-    return request.get(this.url).then(doc => {
-      this.parse(doc.querySelector('div.center'));
-    });
+    const tasks = [
+      //get main info
+      request.get(this.url).then(doc => {
+        this.parse(doc.querySelector('div.center'));
+      }),
+
+      //get born info
+      request.get(this.url + '/employment').then(doc => {
+        const note = doc.querySelector('.footnote').textContent,
+              reCredit = new RegExp('(\\d*) {0}'.format(chrome.i18n.getMessage('label_credit'))),
+              reLv = new RegExp('{0} (\\d*)'.format(chrome.i18n.getMessage('trainer_lv'))),
+              matches = note.match(reCredit) || note.match(reLv) || [];
+        this.born = matches[1];
+      })
+    ];
+    return Promise.all(tasks);
   }
 
   parse(el) {
@@ -325,6 +338,12 @@ export default class Player {
     return Math.round(main_feature * 100) / 100.0;
   }
 
+  parseBidPriceElement(el) {
+    const value = playerDOM.parseDOM(el, 'bid_price');
+    this.bid_price = value;
+    this.premium_rate = this.bid_price / this.market_value;
+  }
+
   parseAge() {
     const age_array = this.age.match(/\d+/g);
     this.age_string = this.age.match(/(.*)\(.*\)/)[1].trim();
@@ -332,6 +351,16 @@ export default class Player {
     this.age_weeks = parseInt(age_array[1], 10);
     this.age_factor = parseFloat(age_array[2]) / 100.0;
     this.age_number = Math.round((this.age_years + this.age_weeks / 52) * 100) / 100.0;
+  }
+
+  parseValue() {
+    const values = this.value.split('-');
+    this.min_value = parseFloat(values[0]);
+    if (values[1]) {
+      this.max_value = parseFloat(values[1]);
+    } else {
+      this.max_value = this.min_value;
+    }
   }
 
   assignPositionFeature(position, bonus_fixed_feature, main_feature) {
@@ -343,6 +372,7 @@ export default class Player {
 
   computeInfo() {
     this.parseAge();
+    this.parseValue();
 
     this.property_score = this.getPropertyScore();
     this.total_exp1     = this.getTotalExp(1);
@@ -412,7 +442,10 @@ export default class Player {
       case 'player_score2':
       case 'exp_score1':
       case 'exp_score2':
-        result = new Intl.NumberFormat(navigator.language).format(result);
+        result = new Intl.NumberFormat(navigator.language, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0
+        }).format(result);
         break;
 
       case 'weekly_wage':

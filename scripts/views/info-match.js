@@ -1,5 +1,6 @@
 /*
- * - 劇透功能 [appendSpoilerElement]
+ * - 增加劇透功能 [appendSpoilerElement]
+ * - 增加球員的提示列表 [appendPlayerTooltip]
  */
 
 import React from '../utils/react-like.js';
@@ -19,86 +20,71 @@ const appendSpoilerElement = () => {
   }
 };
 
-const addTooltip = () => {
+const appendPlayerTooltip = () => {
   const linkPlayers = document.querySelectorAll('a[href *=player-]:not([href $=transfer])');
   linkPlayers.forEach(el => {
     const playerUrl = el.href;
     let elTooltips;
+
     el.addEventListener('mouseover', e => {
       if (elTooltips) {
         return;
       }
 
       const player = new Player({ url: playerUrl });
+      const DATA_LAYOUT_SETTINGS = [
+        { cols: 'one', key: 'name' },
+        { cols: 'two', key: 'age_string' },
+        { cols: 'one', key: 'position' },
+        { cols: 'one', key: 'special_attributes' },
+        { cols: 'one', key: 'value' },
+        { cols: 'one', key: 'market_value' },
+        { cols: 'two', key: 'talent' },
+        { cols: 'two', key: 'scoring' },
+        { cols: 'two', key: 'endurance' },
+        { cols: 'two', key: 'passing' },
+        { cols: 'two', key: 'power' },
+        { cols: 'two', key: 'dueling' },
+        { cols: 'two', key: 'speed' },
+        { cols: 'two', key: 'blocking' },
+        { cols: 'two', key: 'tactics' },
+        { cols: 'one', key: 'position_exp' },
+        { cols: 'one', key: 'total_exp2' },
+        { cols: 'one', key: 'player_score2' }
+      ];
       player.fetch().then(() => {
         elTooltips = (
-          <div class='tooltips--player'>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_name')}</span>
-              <span class='tooltips__value'>{player.name}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_age')}</span>
-              <span class='tooltips__value'>{player.age_string}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_position')}</span>
-              <span class='tooltips__value'>{player.position}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_special_attributes')}</span>
-              <span class='tooltips__value'>{player.special_attributes}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_value')}</span>
-              <span class='tooltips__value'>{player.value}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_market_value')}</span>
-              <span class='tooltips__value'>{player.format('market_value')}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_talent')}</span>
-              <span class='tooltips__value'>{player.talent}</span>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_scoring')}</span>
-              <span class='tooltips__value'>{player.scoring}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_endurance')}</span>
-              <span class='tooltips__value'>{player.endurance}</span>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_passing')}</span>
-              <span class='tooltips__value'>{player.passing}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_power')}</span>
-              <span class='tooltips__value'>{player.power}</span>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_dueling')}</span>
-              <span class='tooltips__value'>{player.dueling}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_speed')}</span>
-              <span class='tooltips__value'>{player.speed}</span>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_blocking')}</span>
-              <span class='tooltips__value'>{player.blocking}</span>
-            </div>
-            <div class='tooltips__two-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_tactics')}</span>
-              <span class='tooltips__value'>{player.tactics}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_position_exp')}</span>
-              <span class='tooltips__value'>{player.format('position_exp')}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_player_score2')}</span>
-              <span class='tooltips__value'>{player.format('player_score2')}</span>
-            </div>
-            <div class='tooltips__one-col'>
-              <span class='tooltips__label'>{chrome.i18n.getMessage('player_total_exp2')}</span>
-              <span class='tooltips__value'>{player.format('total_exp2')}</span>
-            </div>
-          </div>
+          <div class='tooltips--player'></div>
         );
+
+        let i = 0;
+        while (i < DATA_LAYOUT_SETTINGS.length) {
+          const setting = DATA_LAYOUT_SETTINGS[i],
+                nextSetting = DATA_LAYOUT_SETTINGS[i+1],
+                { cols, key } = setting;
+          let elRow;
+
+          if (cols === 'two' && (nextSetting && nextSetting.cols === 'two')) {
+            elRow = (
+              <div class='tooltips__two-col'>
+                <span class='tooltips__label'>{chrome.i18n.getMessage('player_{0}'.format(key))}</span>
+                <span class='tooltips__value'>{player.format(key)}</span>
+                <span class='tooltips__label'>{chrome.i18n.getMessage('player_{0}'.format(nextSetting.key))}</span>
+                <span class='tooltips__value'>{player.format(nextSetting.key)}</span>
+              </div>
+            );
+            i += 2;
+          } else {
+            elRow = (
+              <div class={'tooltips__{0}-col'.format(cols)}>
+                <span class='tooltips__label'>{chrome.i18n.getMessage('player_{0}'.format(key))}</span>
+                <span class='tooltips__value'>{player.format(key)}</span>
+              </div>
+            );
+            i += 1;
+          }
+          elTooltips.appendChild(elRow);
+        }
 
         el.parentElement.parentElement.appendChild(elTooltips);
         elTooltips.style.left = e.clientX + 'px';
@@ -122,5 +108,5 @@ const addTooltip = () => {
 //don't apply on info/match-*/fixture
 if (location.href.search('fixture') < 0) {
   appendSpoilerElement();
-  addTooltip();
+  appendPlayerTooltip();
 }

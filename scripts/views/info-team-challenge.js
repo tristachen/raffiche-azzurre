@@ -1,29 +1,12 @@
 /*
- * - 可以選擇更多挑戰時段 [customizeChallengeTimeElement]
- * - 可以對別的球隊發送多個友誼賽挑戰時段 [appendMultiChallengeElement]
+ * - 提供更多挑戰時段 [customizeChallengeTimeSelector]
+ * - 可對該球隊發送多個友誼賽挑戰時段 [appendMultiChallengeElement]
  */
 
 import React from '../utils/react-like.js';
 import * as utils from '../utils/common.js';
 import * as request from '../utils/request.js';
-
-const customizeChallengeTimeElement = () => {
-  const el = document.querySelector('select[name=start_time]'),
-        firstSecs = parseInt(el.firstChild.value, 10),
-        NUMBERS = 72,
-        PERIOD = 60 * 60; //1 hour
-
-  //clear default options
-  el.innerHTML = '';
-
-  //add customization options
-  for (let i = 0; i < NUMBERS; i++) {
-    const secs = firstSecs + PERIOD * i,
-          date = new Date(secs * 1000),
-          str = date.toLocaleString();
-    el.appendChild(<option value={secs}>{str}</option>);
-  }
-};
+import customizeChallengeTimeSelector from '../components/customize-challenge-time-selector.js';
 
 const appendMultiChallengeElement = () => {
   const form = document.querySelector('div.center > form'),
@@ -32,8 +15,8 @@ const appendMultiChallengeElement = () => {
         PERIOD = 60 * 60 * 2; //2 hours
 
   const onclick = e => {
-    const startSecs = parseInt(form.querySelector('[name=start_time]').value, 10);
-    const data = {};
+    const startSecs = parseInt(form.querySelector('[name=start_time]').value, 10),
+          data = {};
     form.querySelectorAll('[name]').forEach(el => data[el.name] = el.value);
     for (let i = 0; i < TIMES; i++) {
       data.start_time = startSecs + PERIOD * i;
@@ -47,5 +30,5 @@ const appendMultiChallengeElement = () => {
   document.querySelector('div.center').appendChild(btn);
 };
 
-customizeChallengeTimeElement();
+customizeChallengeTimeSelector();
 appendMultiChallengeElement();

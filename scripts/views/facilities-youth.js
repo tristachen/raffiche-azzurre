@@ -1,5 +1,5 @@
 /*
- * - 加上額外資訊 [appendExtraInfo]
+ * - 增加額外資訊 [appendExtraInfo]
  */
 
 import React from '../utils/react-like.js';

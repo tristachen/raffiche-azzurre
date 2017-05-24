@@ -1,5 +1,5 @@
 /*
- * - 加上截止時間、掛牌價 [appendExtraInfo]
+ * - 增加額外資訊 [appendExtraInfo]
  */
 
 import React from '../utils/react-like.js';
@@ -13,7 +13,7 @@ const appendExtraInfo = () => {
   const elBodyTd = document.querySelectorAll('.horizontal_table tbody tr a[href *=transfer]');
   elBodyTd.forEach(el => {
     request.get(el.href).then(doc => {
-      const elDeadline = [].find.call(doc.querySelectorAll('th'), el => el.textContent === '期限'),
+      const elDeadline = [].find.call(doc.querySelectorAll('th'), el => el.textContent === chrome.i18n.getMessage('label_deadline')),
             elBidPrice = doc.querySelector('.sub_block .money-positive'),
             deadline = elDeadline.nextElementSibling.textContent,
             bidPrice = elBidPrice.textContent;

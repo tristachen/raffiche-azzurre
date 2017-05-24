@@ -1,5 +1,5 @@
 /*
- * - 自動買票 [appendBuyTicketElement]
+ * - 增加自動買票元件 [appendBuyTicketElement]
  *   - getReturnUrlByIndex
  *   - batchBuyTicket
  */
@@ -35,7 +35,7 @@ const getReturnUrlByIndex = i => {
         </div>
       );
       elContatiner.appendChild(elBuyTicket);
-    } else {
+    } else if (i < elTickets.length - 1){
       //util get return url
       getReturnUrlByIndex(i+1);
     }
