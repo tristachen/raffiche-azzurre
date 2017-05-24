@@ -1,5 +1,5 @@
 /*
- * - 增加自動買票元件 [appendBuyTicketElement]
+ * - 增加自動買票功能 [appendBuyTicketElement]
  *   - getReturnUrlByIndex
  *   - batchBuyTicket
  */

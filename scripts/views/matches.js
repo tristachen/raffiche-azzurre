@@ -1,5 +1,5 @@
 /*
- * - 增加自動觀看比賽元件 [appendAutoWatchMatchElement]
+ * - 增加自動觀看比賽功能 [appendAutoWatchMatchElement]
  *   - localStorage key: auto-watch-match
  *     if (auto-watch-match) {
  *       renderWatchToggleElement(off);

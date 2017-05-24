@@ -1,5 +1,5 @@
 /*
- * - 增加預估資訊 [appendExtraInfo]
+ * - 增加額外資訊 [appendExtraInfo]
  * - 增加成長預估資訊 [appendGrowingUpInfo]
  */
 
