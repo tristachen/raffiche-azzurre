@@ -10,7 +10,7 @@ import Player from '../models/player.js';
 
 const appendExtraInfo = () => {
   const el = document.querySelector('.center');
-  let player = new Player();
+  let player = new Player({ url: location.href });
   player.parse(el);
   ['training_grade', 'property_score', 'score1', 'score2'].forEach(key => {
     const name = chrome.i18n.getMessage('player_' + key),
