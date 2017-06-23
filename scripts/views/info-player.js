@@ -40,6 +40,7 @@ const appendExtraInfo = () => {
   if (player.age_years <= 30) {
     getTrainerInfo().then(trainer => appendGrowingUpInfo(player, trainer));
   }
+  replacePlayerImage(player);
 };
 
 const getTrainerInfo = player => {
@@ -110,6 +111,17 @@ const appendGrowingUpInfo = (player, train) => {
   );
   const target = document.querySelectorAll('.vertical_table')[2];
   target.parentElement.insertBefore(table, target);
+};
+
+const replacePlayerImage = player => {
+  let filename = localStorage.getItem(player.id + '_image');
+  const imgPlayer = document.querySelector('.player_image');
+  if (!filename) {
+    filename = 'player-{0}.jpg'.format(utils.getRandom(0, 42));
+    localStorage.setItem(player.id + '_image', filename);
+  }
+  imgPlayer.src = chrome.runtime.getURL('players/' + filename);
+  imgPlayer.classList.add('player-image');
 };
 
 //only apply on info/player-*

@@ -24,3 +24,7 @@ export const createButton = (text, onclick, options) => {
   btn.onclick = onclick;
   return btn;
 };
+
+export const getRandom = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};

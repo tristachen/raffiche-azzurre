@@ -59,5 +59,6 @@
   }, {
     "matches": ["https://rockingsoccer.com/*/*/messages/home/home-*"],
     "js": ["assets/messages.js"]
-  }]
+  }],
+  "web_accessible_resources": ["players/*"]
 }
