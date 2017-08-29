@@ -24,6 +24,10 @@
     "matches": ["https://rockingsoccer.com/*/*/info/player-*"],
     "js": ["assets/info-player.js"]
   }, {
+    "matches": ["https://rockingsoccer.com/*/*/info/player-*/transfer"],
+    "js": ["assets/info-player-transfer.js"],
+    "run_at":"document_start"
+  }, {
     "matches": ["https://rockingsoccer.com/*/*/info/team-*"],
     "js": ["assets/info-team.js"]
   }, {
